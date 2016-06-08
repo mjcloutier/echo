@@ -16,17 +16,14 @@ defmodule Echo.Router do
   scope "/api", Echo do
     pipe_through :api
 
-    get "/notifications", NotificationController, :index
+    resources "/v1/notifications", Api.V1.NotificationController, only: [:index, :show]
   end
 
   scope "/", Echo do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
-  end
+    get "/", NotificationController, :index
 
-  # Other scopes may use custom stacks.
-  # scope "/api", Echo do
-  #   pipe_through :api
-  # end
+    resources "/notifications", NotificationController
+  end
 end
