@@ -13,6 +13,12 @@ defmodule Echo.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/api", Echo do
+    pipe_through :api
+
+    get "/notifications", NotificationController, :index
+  end
+
   scope "/", Echo do
     pipe_through :browser # Use the default browser stack
 
