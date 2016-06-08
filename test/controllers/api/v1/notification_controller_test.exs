@@ -13,9 +13,6 @@ defmodule Echo.Api.V1.NotificationControllerTest do
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, api_v1_notification_path(conn, :index)
-    require IEx
-    IEx.pry
-
     assert json_response(conn, 200)["notifications"] == []
   end
 
