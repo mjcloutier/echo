@@ -2,13 +2,16 @@ defmodule Echo.Notification do
   use Echo.Web, :model
 
   schema "notifications" do
+    field :title, :string
     field :body, :string
+    field :start_at, Ecto.DateTime
+    field :end_at, Ecto.DateTime
 
     timestamps
   end
 
-  @required_fields ~w(body)
-  @optional_fields ~w()
+  @required_fields ~w(title body)
+  @optional_fields ~w(start_at end_at)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
