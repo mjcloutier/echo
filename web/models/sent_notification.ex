@@ -2,8 +2,8 @@ defmodule Echo.SentNotification do
   use Echo.Web, :model
 
   schema "sent_notifications" do
-    field :notification_id, :integer
-    field :customer_id, :integer
+    belongs_to :customer,     Echo.Customer
+    belongs_to :notification, Echo.Notification
     field :acknowledged, :boolean, default: false
 
     timestamps
