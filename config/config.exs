@@ -9,7 +9,7 @@ use Mix.Config
 config :echo, Echo.Endpoint,
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
-  secret_key_base: "7LfxVrMvvWBfbDtx8DPcW/ARBKM8vUONzveJD1Jf9sJF5fzM/i4UQLnijdAZsGhd",
+  secret_key_base: "RdQ7prBLiF6rUbyJdBeQZ2zON5VqI55BKwXXHLD7YJQ1tYGDsoPvtBpCWuIpjmZW",
   render_errors: [accepts: ~w(html json)],
   pubsub: [name: Echo.PubSub,
            adapter: Phoenix.PubSub.PG2]

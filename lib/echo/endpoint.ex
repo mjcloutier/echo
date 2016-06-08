@@ -33,7 +33,7 @@ defmodule Echo.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_echo_key",
-    signing_salt: "mVrm1au6"
+    signing_salt: "769F+tvZ"
 
   plug Echo.Router
 end
