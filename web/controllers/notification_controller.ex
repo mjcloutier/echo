@@ -7,7 +7,7 @@ defmodule Echo.NotificationController do
 
   def index(conn, _params) do
     notifications = Repo.all(from n in Notification,
-                             order_by: n.inserted_at)
+                             order_by: [desc: n.inserted_at])
     render(conn, "index.html", notifications: notifications)
   end
 
