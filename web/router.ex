@@ -16,7 +16,7 @@ defmodule Echo.Router do
   scope "/api/v1", Echo.Api.V1, as: :api_v1 do
     pipe_through :api
 
-    resources "/notifications", NotificationController, only: [:index, :show]
+    resources "/notifications", NotificationController, only: [:index, :update]
   end
 
   scope "/", Echo do

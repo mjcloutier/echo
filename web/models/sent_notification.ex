@@ -1,9 +1,14 @@
 defmodule Echo.SentNotification do
   use Echo.Web, :model
 
+  alias Echo.Repo
+  alias Echo.Customer
+  alias Echo.Notification
+  alias Echo.SentNotification
+
   schema "sent_notifications" do
-    belongs_to :customer,     Echo.Customer
-    belongs_to :notification, Echo.Notification
+    belongs_to :customer,     Customer
+    belongs_to :notification, Notification
     field :acknowledged, :boolean, default: false
 
     timestamps
@@ -24,13 +29,13 @@ defmodule Echo.SentNotification do
   end
 
   def notification_ids_for_customer(customer) do
-    from sent in Echo.SentNotification,
+    from sent in SentNotification,
          where: sent.customer_id == ^customer.id,
          select: sent.notification_id
   end
 
   def create(customer, notification) do
-      Echo.Repo.insert!(changeset(%Echo.SentNotification{}, %{
+      Repo.insert!(changeset(%SentNotification{}, %{
          customer_id: customer.id,
          notification_id: notification.id
        }))
