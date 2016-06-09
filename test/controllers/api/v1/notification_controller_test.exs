@@ -7,7 +7,7 @@ defmodule Echo.Api.V1.NotificationControllerTest do
   alias Echo.Notification
   alias Echo.SentNotification
 
-  @valid_attrs %{body: "some content"}
+  @valid_attrs %{body: "some content", title: "Cool peas."}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -46,5 +46,42 @@ defmodule Echo.Api.V1.NotificationControllerTest do
     conn = get conn, api_v1_notification_path(conn, :index, user_id: c.app_user_id)
     assert json_response(conn, 200)["notifications"] |> Enum.count == 0
     assert Echo.Repo.all(from c in Customer, select: count(c.id)) == [1]
+  end
+
+  test "doesn't return expired notifications", %{conn: conn} do
+    Echo.Repo.insert!(%Notification{end_at: gimme_the_past})
+
+    conn = get conn, api_v1_notification_path(conn, :index, user_id: "ajsdklf")
+    assert json_response(conn, 200)["notifications"] |> Enum.count == 0
+    assert Echo.Repo.all(from s in SentNotification, select: count(s.id)) == [0]
+  end
+
+  test "doesn't return notifications that are scheduled for the future", %{conn: conn} do
+    Echo.Repo.insert!(%Notification{start_at: gimme_the_future})
+
+    conn = get conn, api_v1_notification_path(conn, :index, user_id: "ajsdklf")
+    assert json_response(conn, 200)["notifications"] |> Enum.count == 0
+    assert Echo.Repo.all(from s in SentNotification, select: count(s.id)) == [0]
+  end
+
+  test "returns notifications inside of a start-end date", %{conn: conn} do
+    Echo.Repo.insert!(%Notification{start_at: gimme_the_past, end_at: gimme_the_future})
+
+    conn = get conn, api_v1_notification_path(conn, :index, user_id: "ajsdklf")
+    assert json_response(conn, 200)["notifications"] |> Enum.count == 1
+    assert Echo.Repo.all(from s in SentNotification, select: count(s.id)) == [1]
+  end
+
+  # 1.3 has Calendar data types, but there's still some hurdles to jump through
+  # to interop with Ecto.DateTimes, couldn't just Calendar.DateTime.now |> ...add(30) |> Ecto.DateTime.parse
+  # So I gave up and I'm doing it the erlang way
+  def gimme_the_past do
+    {{y, month, d}, {_, _, _}} = :os.timestamp |> :calendar.now_to_datetime
+    {{y, month-1, d}, {0, 0, 0}} |> Ecto.DateTime.from_erl
+  end
+
+  def gimme_the_future do
+    {{y, month, d}, {_, _, _}} = :os.timestamp |> :calendar.now_to_datetime
+    {{y, month+1, d}, {0, 0, 0}} |> Ecto.DateTime.from_erl
   end
 end

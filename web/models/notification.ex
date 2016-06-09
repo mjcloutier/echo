@@ -30,7 +30,12 @@ defmodule Echo.Notification do
   end
 
   def unread_for(customer) do
+    today = :os.timestamp |> :calendar.now_to_datetime |> Ecto.DateTime.from_erl
+
     notification_ids = Repo.all(SentNotification.notification_ids_for_customer(customer))
-    Repo.all(from n in Notification, where: not n.id in ^notification_ids)
+    Repo.all(from n in Notification,
+             where: not n.id in ^notification_ids,
+             where: n.end_at   > ^today or is_nil(n.end_at),
+             where: n.start_at < ^today or is_nil(n.start_at))
   end
 end
