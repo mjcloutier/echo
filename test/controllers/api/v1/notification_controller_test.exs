@@ -82,6 +82,13 @@ defmodule Echo.Api.V1.NotificationControllerTest do
     assert Repo.get!(SentNotification, s.id).acknowledged
   end
 
+  test "doesn't bomb if fails to find customer", %{conn: conn} do
+    notification = Echo.Repo.insert!(%Notification{})
+
+    conn = put conn, api_v1_notification_path(conn, :update, notification, user_id: "big_ass_uuid")
+    assert json_response(conn, 403)
+  end
+
   # 1.3 has Calendar data types, but there's still some hurdles to jump through
   # to interop with Ecto.DateTimes, couldn't just Calendar.DateTime.now |> ...add(30) |> Ecto.DateTime.parse
   # So I gave up and I'm doing it the erlang way

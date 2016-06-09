@@ -5,36 +5,48 @@ defmodule Echo.Api.V1.NotificationController do
   alias Echo.Notification
   alias Echo.SentNotification
 
-  plug :find_customer_or_halt when action in [:index]
+  plug :halt_if_no_user_id
+  plug :find_or_create_customer when action in [:index]
   plug :find_unread_relevant_notifications when action in [:index]
   plug :mark_new_notifications_as_sent when action in [:index]
+  plug :find_customer_or_halt when action in [:update]
 
   def index(conn, _params) do
     render(conn, "index.json", notifications: conn.assigns.unread_notifications)
   end
 
-  def update(conn, %{"id" => id, "user_id" => user_id}) do
-    sent_notification = case SentNotification.find_by(user_id, id) do
-      {:error, :not_found} -> render_error(conn, "Can not find a notification for that user.")
-      notification         -> notification
-    end
-    changeset = SentNotification.changeset(sent_notification, %{acknowledged: true})
+  def update(conn, %{"id" => notification_id}) do
+    notification = Repo.get!(Notification, notification_id)
+
+    sent = Repo.get_by!(SentNotification, customer_id: conn.assigns.customer.id, notification_id: notification_id)
+    changeset = SentNotification.changeset(sent, %{acknowledged: true})
 
     case Repo.update(changeset) do
       {:ok, _} ->
         conn
         |> render("acknowledged.json")
       {:error, _} ->
-        render(conn, "failed_ack.json", sent_notification: sent_notification)
+        render(conn, "failed_ack.json", sent_notification: sent)
     end
   end
 
 
-  defp find_customer_or_halt(conn, _opts) do
+  defp halt_if_no_user_id(conn, _opts) do
     case conn.params["user_id"] do
-      nil     -> conn |> render_error("Must provide a user_id.")
-      user_id -> conn |> assign(:customer, Customer.find_or_create(user_id))
+      nil -> conn |> render_error("Must provide a user_id.")
+      _   -> conn
     end
+  end
+
+  defp find_customer_or_halt(conn, _opts) do
+    case Repo.get_by(Customer, app_user_id: conn.params["user_id"]) do
+      nil -> conn |> render_error("Customer not found.")
+      c   -> conn |> assign(:customer, c)
+    end
+  end
+
+  defp find_or_create_customer(conn, _opts) do
+    assign(conn, :customer, Customer.find_or_create(conn.params["user_id"]))
   end
 
   defp find_unread_relevant_notifications(conn, _opts) do

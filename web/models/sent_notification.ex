@@ -41,10 +41,8 @@ defmodule Echo.SentNotification do
        }))
   end
 
-  def find_by(user_id, notification_id) do
-    customer = Repo.get_by(Customer, app_user_id: user_id)
-    notification = Repo.get!(Notification, notification_id)
-    case Repo.get_by(SentNotification, customer_id: customer.id, notification_id: notification.id) do
+  def find_by(customer, notification_id) do
+    case Repo.get_by(SentNotification, customer_id: customer.id, notification_id: notification_id) do
       nil          -> {:error, :not_found}
       notification -> notification
     end
