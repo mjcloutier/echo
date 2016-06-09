@@ -9,7 +9,7 @@
   <div class="row">
     <div class="col-xs-12">
       <%= link to: notification_path(@conn, :new), class: "btn btn-sm btn-primary m-b-1" do %>
-        <i class="fa fa-bullhorn"></i> New Echo
+        <i class="fa fa-bullhorn"></i>&nbsp;&nbsp;&nbsp;New Echo
       <% end %>
     </div><!-- /col-xs-12 -->
   </div><!-- /row -->
@@ -39,7 +39,7 @@
 
             <td class="text-right">
               <%= link to: notification_path(@conn, :edit, notification), class: "btn btn-secondary btn-sm" do %>
-                <i class="fa fa-pencil"></i> Edit
+                <i class="fa fa-pencil"></i>&nbsp;&nbsp;Edit
               <% end %>
           </tr>
       <% end %>
