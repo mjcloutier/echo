@@ -34,7 +34,6 @@ defmodule Echo.Web do
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
-      import Echo.ControllerHelpers, only: [render_error: 2]
       import Echo.Router.Helpers
       import Echo.Gettext
     end

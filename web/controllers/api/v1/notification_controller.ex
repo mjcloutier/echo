@@ -1,6 +1,8 @@
 defmodule Echo.Api.V1.NotificationController do
   use Echo.Web, :controller
 
+  import Echo.ControllerHelpers, only: [render_error: 2]
+
   alias Echo.Customer
   alias Echo.Notification
   alias Echo.SentNotification
