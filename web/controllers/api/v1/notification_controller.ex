@@ -1,6 +1,5 @@
 defmodule Echo.Api.V1.NotificationController do
   use Echo.Web, :controller
-  import Echo.ControllerHelpers, only: [render_error: 2]
 
   alias Echo.Customer
   alias Echo.Notification
@@ -19,9 +18,15 @@ defmodule Echo.Api.V1.NotificationController do
       {:error, :not_found} -> render_error(conn, "Can not find a notification for that user.")
       notification         -> notification
     end
-    # Update sent_notification
+    changeset = SentNotification.changeset(sent_notification, %{acknowledged: true})
 
-    render(conn, "acknowledged.json")
+    case Repo.update(changeset) do
+      {:ok, _} ->
+        conn
+        |> render("acknowledged.json")
+      {:error, changeset} ->
+        render(conn, "failed_ack.json", sent_notification: sent_notification)
+    end
   end
 
 
