@@ -20,6 +20,8 @@ defmodule Echo.Api.V1.NotificationView do
   def render("notification.json", %{notification: notification}) do
     %{ id:    notification.id,
        body:  notification.body,
-       title: notification.title }
+       title: notification.title,
+       summary: notification.summary
+      }
   end
 end
