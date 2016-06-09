@@ -17,7 +17,10 @@
     <%= error_tag f, :body %>
   </div>
 
-  <div class="form-group">
+  <hr class="m-t-3" />
+
+  <div class="form-group m-t-3">
+    <%= link "Cancel", to: notification_path(@conn, :index), class: "btn btn-link text-danger" %>
     <%= submit "Save", class: "btn btn-primary" %>
   </div>
 <% end %>

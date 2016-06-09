@@ -9,13 +9,8 @@
   <div class="row">
     <div class="col-xs-12">
       <%= render "form.html", changeset: @changeset,
-                              action: notification_path(@conn, :create) %>
-    </div><!-- /col-xs-12 -->
-  </div><!-- /row -->
-
-  <div class="row">
-    <div class="col-xs-12">
-      <%= link "Back", to: notification_path(@conn, :index) %>
+                              action: notification_path(@conn, :create),
+                              conn: @conn %>
     </div><!-- /col-xs-12 -->
   </div><!-- /row -->
 </div><!-- /container -->
