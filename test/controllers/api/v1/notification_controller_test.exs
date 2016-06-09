@@ -38,13 +38,23 @@ defmodule Echo.Api.V1.NotificationControllerTest do
     assert Echo.Repo.all(from c in SentNotification, select: count(c.id)) == [1]
   end
 
-  test "doesn't return a notification if it's been sent", %{conn: conn} do
+  test "doesn't return a notification if it's been sent and acknowledged", %{conn: conn} do
+    n = Echo.Repo.insert!(%Notification{})
+    c = Echo.Repo.insert!(%Customer{app_user_id: "big_ass_uuid"})
+    Echo.Repo.insert!(%SentNotification{customer_id: c.id, notification_id: n.id, acknowledged: true})
+
+    conn = get conn, api_v1_notification_path(conn, :index, user_id: c.app_user_id)
+    assert json_response(conn, 200)["notifications"] |> Enum.count == 0
+    assert Echo.Repo.all(from c in Customer, select: count(c.id)) == [1]
+  end
+
+  test "does return a notification if it's been sent and not acknowledged", %{conn: conn} do
     n = Echo.Repo.insert!(%Notification{})
     c = Echo.Repo.insert!(%Customer{app_user_id: "big_ass_uuid"})
     Echo.Repo.insert!(%SentNotification{customer_id: c.id, notification_id: n.id})
 
     conn = get conn, api_v1_notification_path(conn, :index, user_id: c.app_user_id)
-    assert json_response(conn, 200)["notifications"] |> Enum.count == 0
+    assert json_response(conn, 200)["notifications"] |> Enum.count == 1
     assert Echo.Repo.all(from c in Customer, select: count(c.id)) == [1]
   end
 
