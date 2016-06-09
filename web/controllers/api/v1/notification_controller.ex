@@ -24,7 +24,7 @@ defmodule Echo.Api.V1.NotificationController do
       {:ok, _} ->
         conn
         |> render("acknowledged.json")
-      {:error, changeset} ->
+      {:error, _} ->
         render(conn, "failed_ack.json", sent_notification: sent_notification)
     end
   end
