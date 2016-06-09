@@ -8,40 +8,19 @@ defmodule Echo.Api.V1.NotificationController do
   alias Echo.SentNotification
 
   plug :find_customer_or_halt
-  plug :filter_sent_notifications
+  plug :find_unread_notifications
+  plug :mark_new_notifications_as_sent
 
   def index(conn, _params) do
-
-    # Debug stuffs
-    user_count = List.first(Repo.all(from c in Customer, select: count(c.id)))
-    Logger.debug "Current number of users: #{user_count}"
-
-
-    # Mark em as sent.
-    unread_notifications = conn.assigns[:unread_notifications]
-    Enum.each(unread_notifications, fn notification ->
-      # This could potentially dupe if we don't filter unread properly
-      Repo.insert!(SentNotification.changeset(%SentNotification{}, %{ customer_id: conn.assigns[:customer].id, notification_id: notification.id }))
-    end)
-
-    render(conn, "index.json", notifications: unread_notifications)
+    render(conn, "index.json", notifications: conn.assigns[:unread_notifications])
   end
+
 
   defp find_customer_or_halt(conn, _opts) do
     case conn.params["user_id"] do
       nil     -> conn |> render_error
       user_id -> conn |> fetch_or_build_customer(user_id)
     end
-  end
-
-  defp filter_sent_notifications(conn, _opts) do
-    sent_notification_ids = Repo.all(from sent in SentNotification,
-                                      where: sent.customer_id == ^conn.assigns[:customer].id,
-                                      select: sent.notification_id)
-    unread_notifications =  Repo.all(from n in Notification,
-                                      where: not n.id in ^sent_notification_ids)
-
-    assign(conn, :unread_notifications, unread_notifications)
   end
 
   defp fetch_or_build_customer(conn, user_id) do
@@ -57,5 +36,23 @@ defmodule Echo.Api.V1.NotificationController do
     |> put_status(:forbidden)
     |> json(%{error: "Must provide a user_id."})
     |> halt # Stop execution of further plugs, return response now
+  end
+
+  defp find_unread_notifications(conn, _opts) do
+    sent_notification_ids = Repo.all(from sent in SentNotification,
+                                      where: sent.customer_id == ^conn.assigns[:customer].id,
+                                      select: sent.notification_id)
+    unread_notifications =  Repo.all(from n in Notification,
+                                      where: not n.id in ^sent_notification_ids)
+
+    assign(conn, :unread_notifications, unread_notifications)
+  end
+
+  defp mark_new_notifications_as_sent(conn, _opts) do
+    Enum.each(conn.assigns[:unread_notifications], fn notification ->
+      Repo.insert!(SentNotification.changeset(%SentNotification{}, %{ customer_id: conn.assigns[:customer].id,
+                                                                      notification_id: notification.id }))
+    end)
+    conn
   end
 end

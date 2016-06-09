@@ -1,4 +1,5 @@
 require IEx
+
 defmodule Echo.Api.V1.NotificationControllerTest do
   use Echo.ConnCase
 
