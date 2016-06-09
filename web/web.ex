@@ -51,6 +51,7 @@ defmodule Echo.Web do
 
       import Echo.Router.Helpers
       import Echo.ErrorHelpers
+      import Echo.LinkHelpers, [:active_class, 2]
       import Echo.Gettext
     end
   end
