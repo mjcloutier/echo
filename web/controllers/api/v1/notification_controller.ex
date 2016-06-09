@@ -39,19 +39,12 @@ defmodule Echo.Api.V1.NotificationController do
   end
 
   defp find_unread_notifications(conn, _opts) do
-    sent_notification_ids = Repo.all(from sent in SentNotification,
-                                      where: sent.customer_id == ^conn.assigns[:customer].id,
-                                      select: sent.notification_id)
-    unread_notifications =  Repo.all(from n in Notification,
-                                      where: not n.id in ^sent_notification_ids)
-
-    assign(conn, :unread_notifications, unread_notifications)
+    assign(conn, :unread_notifications, Notification.unread_for(conn.assigns[:customer]))
   end
 
   defp mark_new_notifications_as_sent(conn, _opts) do
     Enum.each(conn.assigns[:unread_notifications], fn notification ->
-      Repo.insert!(SentNotification.changeset(%SentNotification{}, %{ customer_id: conn.assigns[:customer].id,
-                                                                      notification_id: notification.id }))
+      SentNotification.create(conn.assigns[:customer], notification)
     end)
     conn
   end

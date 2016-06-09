@@ -22,4 +22,17 @@ defmodule Echo.SentNotification do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
+
+  def notification_ids_for_customer(customer) do
+    from sent in Echo.SentNotification,
+         where: sent.customer_id == ^customer.id,
+         select: sent.notification_id
+  end
+
+  def create(customer, notification) do
+      Echo.Repo.insert!(changeset(%Echo.SentNotification{}, %{
+         customer_id: customer.id,
+         notification_id: notification.id
+       }))
+  end
 end
