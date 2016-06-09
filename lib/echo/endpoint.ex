@@ -1,4 +1,4 @@
-defmodule MyApp.CORS do
+defmodule Echo.CORS do
   use Corsica.Router
 
   resource "/api/v1/*", origins: "*"
@@ -40,6 +40,6 @@ defmodule Echo.Endpoint do
     store: :cookie,
     key: "_echo_key",
     signing_salt: "769F+tvZ"
-  plug MyApp.CORS
+  plug Echo.CORS
   plug Echo.Router
 end
