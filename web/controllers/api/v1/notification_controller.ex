@@ -6,12 +6,22 @@ defmodule Echo.Api.V1.NotificationController do
   alias Echo.Notification
   alias Echo.SentNotification
 
-  plug :find_customer_or_halt
-  plug :find_unread_relevant_notifications
-  plug :mark_new_notifications_as_sent
+  plug :find_customer_or_halt when action in [:index]
+  plug :find_unread_relevant_notifications when action in [:index]
+  plug :mark_new_notifications_as_sent when action in [:index]
 
   def index(conn, _params) do
     render(conn, "index.json", notifications: conn.assigns.unread_notifications)
+  end
+
+  def update(conn, %{"id" => id, "user_id" => user_id}) do
+    sent_notification = case SentNotification.find_by(user_id, id) do
+      {:error, :not_found} -> render_error(conn, "Can not find a notification for that user.")
+      notification         -> notification
+    end
+    # Update sent_notification
+
+    render(conn, "acknowledged.json")
   end
 
 

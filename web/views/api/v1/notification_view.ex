@@ -5,6 +5,10 @@ defmodule Echo.Api.V1.NotificationView do
     %{notifications: render_many(notifications, Echo.Api.V1.NotificationView, "notification.json")}
   end
 
+  def render("acknowledged.json", _params) do
+    %{ great: "success" }
+  end
+
   def render("notification.json", %{notification: notification}) do
     %{ id:    notification.id,
        body:  notification.body,
