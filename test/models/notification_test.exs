@@ -3,7 +3,10 @@ defmodule Echo.NotificationTest do
 
   alias Echo.Notification
 
-  @valid_attrs %{body: "some content"}
+  @valid_attrs %{
+    title: "Cool peas",
+    body: "some content"
+  }
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

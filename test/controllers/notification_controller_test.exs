@@ -2,7 +2,10 @@ defmodule Echo.NotificationControllerTest do
   use Echo.ConnCase
 
   alias Echo.Notification
-  @valid_attrs %{body: "some content"}
+  @valid_attrs %{
+    title: "Cool peas",
+    body: "some content"
+  }
   @invalid_attrs %{}
 
   test "lists all entries on index", %{conn: conn} do
