@@ -1,6 +1,16 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12">
+      <div class="delete-echo-container">
+        <%= link to: notification_path(@conn, :delete, @notification),
+                 method: :delete,
+                 data: [confirm: "Are you sure?"],
+                 class: "btn btn-danger btn-sm",
+                 id: "delete-echo" do %>
+          <i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</i>
+       <% end %>
+      </div><!-- /delete-echo-container -->
+
       <h2>Edit echo</h2>
       <hr />
     </div><!-- /col-xs-12 -->

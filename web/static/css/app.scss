@@ -42,6 +42,11 @@ body {
   }
 }
 
+.delete-echo-container {
+  display: inline-block;
+  float: right;
+}
+
 .content-container {
   flex: 1;
 }
