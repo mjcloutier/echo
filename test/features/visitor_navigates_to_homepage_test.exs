@@ -7,7 +7,7 @@ defmodule VisitorNavigatesToHomepageTest do
 
   hound_session
 
-  test "Notifications are listed" do
+  test "Echos are listed" do
     Repo.insert(%Notification{title: "Onomatopoeia"})
     Repo.insert(%Notification{title: "Cool peas"})
 

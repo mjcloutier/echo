@@ -31,10 +31,12 @@ body {
   margin: 0 0 1em 0;
 
   a {
+    transition: color 0.25s ease;
     color: #CCC;
     text-decoration: none;
 
-    &.active {
+    &.active,
+    &:hover{
       color: $primary-color;
     }
   }
@@ -42,4 +44,12 @@ body {
 
 .content-container {
   flex: 1;
+}
+
+tr {
+  transition: background-color 0.25s ease;
+}
+
+.btn {
+  transition: background-color 0.25s ease;
 }
