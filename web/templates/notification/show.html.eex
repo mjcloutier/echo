@@ -1,13 +1,27 @@
-<h2>Show notification</h2>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>Echo: <%= @notification.title %></h2>
+    </div><!-- /col-xs-12 -->
+  </div><!-- /row -->
 
-<ul>
+  <div class="row">
+    <div class="col-xs-12">
+      <ul>
 
-  <li>
-    <strong>Body:</strong>
-    <%= @notification.body %>
-  </li>
+        <li>
+          <strong>Body:</strong>
+          <%= @notification.body %>
+        </li>
 
-</ul>
+      </ul>
+    </div><!-- /col-xs-12 -->
+  </div><!-- /row -->
 
-<%= link "Edit", to: notification_path(@conn, :edit, @notification) %>
-<%= link "Back", to: notification_path(@conn, :index) %>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= link "Edit", to: notification_path(@conn, :edit, @notification) %>
+      <%= link "Back", to: notification_path(@conn, :index) %>
+    </div><!-- /col-xs-12 -->
+  </div><!-- /row -->
+</div><!-- /container -->

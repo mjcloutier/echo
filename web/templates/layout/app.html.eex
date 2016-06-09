@@ -20,10 +20,10 @@
             <a href=""><i class="fa fa-bars" aria-hidden="true"></i></a>
           </li>
           <li class="navigation-item">
-            <a href=""><i class="fa fa-tachometer" aria-hidden="true"></i></a>
+            <%= link to: notification_path(@conn, :index), class: Echo.LinkHelpers.active_class(@conn, notification_path(@conn, :index)) do %><i class="fa fa-tachometer" aria-hidden="true"></i></a><% end %>
           </li>
           <li class="navigation-item">
-            <a href=""><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+            <%= link to: notification_path(@conn, :new), class: Echo.LinkHelpers.active_class(@conn, notification_path(@conn, :new)) do %><i class="fa fa-plus-circle" aria-hidden="true"></i></a><% end %>
           </li>
           <li class="navigation-item">
             <a href=""><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
@@ -35,24 +35,16 @@
       </div><!-- /navigation-container -->
 
       <div class="content-container">
-        <div class="container">
-          <header class="header">
-            <nav role="navigation">
-              <ul class="nav nav-pills pull-right">
-                <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
-              </ul>
-            </nav>
-            <span class="logo"></span>
-          </header>
-
+        <% if get_flash(@conn, :info) do %>
           <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+        <% end %>
+        <% if get_flash(@conn, :error) do %>
           <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+        <% end %>
 
-          <main role="main">
-            <%= render @view_module, @view_template, assigns %>
-          </main>
-
-        </div> <!-- /container -->
+        <main role="main">
+          <%= render @view_module, @view_template, assigns %>
+        </main>
       </div><!-- /content-container -->
     </div><!-- /app-container -->
 

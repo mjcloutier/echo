@@ -1,6 +1,21 @@
-<h2>Edit notification</h2>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>Edit echo</h2>
+      <hr />
+    </div><!-- /col-xs-12 -->
+  </div><!-- /row -->
 
-<%= render "form.html", changeset: @changeset,
-                        action: notification_path(@conn, :update, @notification) %>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= render "form.html", changeset: @changeset,
+                              action: notification_path(@conn, :update, @notification) %>
+    </div><!-- /col-xs-12 -->
+  </div><!-- /row -->
 
-<%= link "Back", to: notification_path(@conn, :index) %>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= link "Back", to: notification_path(@conn, :index) %>
+    </div><!-- /col-xs-12 -->
+  </div><!-- /row -->
+</div><!-- /container -->
