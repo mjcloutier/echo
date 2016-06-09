@@ -1,28 +1,50 @@
-<h2>Listing notifications</h2>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>Dashboard</h2>
+      <hr />
+    </div><!-- /col-xs-12 -->
+  </div><!-- /row -->
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Body</th>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= link to: notification_path(@conn, :new), class: "btn btn-primary" do %>
+        <i class="fa fa-bullhorn"></i> New Echo
+      <% end %>
+    </div><!-- /col-xs-12 -->
+  </div><!-- /row -->
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for notification <- @notifications do %>
-    <tr>
-      <td><%= notification.title %></td>
-      <td><%= notification.body %></td>
+  <div class="row">
+    <div class="col-xs-12">
+      <table class="table table-hover">
+        <thead class="thead">
+          <tr>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Start date</th>
+            <th>End date</th>
+            <th>Users</th>
 
-      <td class="text-right">
-        <%= link "Show", to: notification_path(@conn, :show, notification), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: notification_path(@conn, :edit, notification), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: notification_path(@conn, :delete, notification), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+      <%= for notification <- @notifications do %>
+          <tr>
+            <td><%= notification.title %></td>
+            <td>Standard</td>
+            <td><%= if notification.start_at do %><%= notification.start_at %><% else %>N/A<% end %></td>
+            <td><%= if notification.end_at do %><%= notification.end_at %><% else %>N/A<% end %></td>
+            <td>FMS - All</td>
 
-<%= link "New notification", to: notification_path(@conn, :new) %>
+            <td class="text-right">
+              <%= link to: notification_path(@conn, :edit, notification), class: "btn btn-secondary btn-sm" do %>
+                <i class="fa fa-pencil"></i> Edit
+              <% end %>
+          </tr>
+      <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

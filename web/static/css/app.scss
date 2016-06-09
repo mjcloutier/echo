@@ -1,0 +1,42 @@
+@import 'bootstrap';
+
+$primary-color: #169dc6;
+
+body {
+  font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+}
+
+.app-container {
+  display: flex;
+}
+
+.navigation-container {
+  background: #444;
+  width: 100px;
+  height: 100vh;
+  color: #CCC;
+  padding: 1rem;
+  text-align: center;
+}
+
+.navigation-items {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  font-size: 2rem;
+}
+
+.navigation-item {
+  a {
+    color: #CCC;
+    text-decoration: none;
+
+    &.active {
+      color: $primary-color;
+    }
+  }
+}
+
+.content-container {
+  flex: 1;
+}
