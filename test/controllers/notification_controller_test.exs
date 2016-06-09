@@ -15,7 +15,7 @@ defmodule Echo.NotificationControllerTest do
 
   test "renders form for new resources", %{conn: conn} do
     conn = get conn, notification_path(conn, :new)
-    assert html_response(conn, 200) =~ "New notification"
+    assert html_response(conn, 200) =~ "New echo"
   end
 
   test "creates resource and redirects when data is valid", %{conn: conn} do
@@ -26,13 +26,13 @@ defmodule Echo.NotificationControllerTest do
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
     conn = post conn, notification_path(conn, :create), notification: @invalid_attrs
-    assert html_response(conn, 200) =~ "New notification"
+    assert html_response(conn, 200) =~ "New echo"
   end
 
   test "shows chosen resource", %{conn: conn} do
-    notification = Repo.insert! %Notification{}
+    notification = Repo.insert! %Notification{title: "Cherry blossom"}
     conn = get conn, notification_path(conn, :show, notification)
-    assert html_response(conn, 200) =~ "Show notification"
+    assert html_response(conn, 200) =~ "Echo: Cherry blossom"
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
@@ -44,7 +44,7 @@ defmodule Echo.NotificationControllerTest do
   test "renders form for editing chosen resource", %{conn: conn} do
     notification = Repo.insert! %Notification{}
     conn = get conn, notification_path(conn, :edit, notification)
-    assert html_response(conn, 200) =~ "Edit notification"
+    assert html_response(conn, 200) =~ "Edit echo"
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
@@ -57,7 +57,7 @@ defmodule Echo.NotificationControllerTest do
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
     notification = Repo.insert! %Notification{}
     conn = put conn, notification_path(conn, :update, notification), notification: @invalid_attrs
-    assert html_response(conn, 200) =~ "Edit notification"
+    assert html_response(conn, 200) =~ "Edit echo"
   end
 
   test "deletes chosen resource", %{conn: conn} do

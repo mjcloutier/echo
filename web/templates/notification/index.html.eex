@@ -8,7 +8,7 @@
 
   <div class="row">
     <div class="col-xs-12">
-      <%= link to: notification_path(@conn, :new), class: "btn btn-primary" do %>
+      <%= link to: notification_path(@conn, :new), class: "btn btn-primary m-b-1" do %>
         <i class="fa fa-bullhorn"></i> New Echo
       <% end %>
     </div><!-- /col-xs-12 -->
@@ -33,8 +33,8 @@
           <tr>
             <td><%= notification.title %></td>
             <td>Standard</td>
-            <td><%= if notification.start_at do %><%= notification.start_at %><% else %>N/A<% end %></td>
-            <td><%= if notification.end_at do %><%= notification.end_at %><% else %>N/A<% end %></td>
+            <td><%= if notification.start_at do %><%= notification.start_at %><% else %>-<% end %></td>
+            <td><%= if notification.end_at do %><%= notification.end_at %><% else %>-<% end %></td>
             <td>FMS - All</td>
 
             <td class="text-right">
