@@ -19,11 +19,11 @@
       <table class="table table-hover">
         <thead class="thead">
           <tr>
-            <th>Title</th>
-            <th>Type</th>
-            <th>Start date</th>
-            <th>End date</th>
-            <th>Users</th>
+            <th width="40%">Title</th>
+            <th width="15%">Type</th>
+            <th width="15%">Start date</th>
+            <th width="15%">End date</th>
+            <th width="10%">Users</th>
 
             <th></th>
           </tr>
