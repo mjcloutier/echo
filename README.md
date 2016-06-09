@@ -1,5 +1,7 @@
 # Echo
 
+[![CircleCI](https://circleci.com/gh/rtroxler/echo/tree/master.svg?style=svg)](https://circleci.com/gh/rtroxler/echo/tree/master)
+
 To start your Phoenix app:
 
   * Install dependencies with `mix deps.get`

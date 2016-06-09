@@ -1,6 +1,10 @@
 defmodule Echo.Notification do
   use Echo.Web, :model
 
+  alias Echo.Repo
+  alias Echo.Notification
+  alias Echo.SentNotification
+
   schema "notifications" do
     field :title, :string
     field :body, :string
@@ -23,5 +27,10 @@ defmodule Echo.Notification do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_length(:title, min: 3)
+  end
+
+  def unread_for(customer) do
+    notification_ids = Repo.all(SentNotification.notification_ids_for_customer(customer))
+    Repo.all(from n in Notification, where: not n.id in ^notification_ids)
   end
 end

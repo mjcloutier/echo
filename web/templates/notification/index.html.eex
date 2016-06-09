@@ -3,6 +3,7 @@
 <table class="table">
   <thead>
     <tr>
+      <th>Title</th>
       <th>Body</th>
 
       <th></th>
@@ -11,6 +12,7 @@
   <tbody>
 <%= for notification <- @notifications do %>
     <tr>
+      <td><%= notification.title %></td>
       <td><%= notification.body %></td>
 
       <td class="text-right">
