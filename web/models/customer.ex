@@ -1,6 +1,9 @@
 defmodule Echo.Customer do
   use Echo.Web, :model
 
+  alias Echo.Repo
+  alias Echo.Customer
+
   schema "customers" do
     field :app_user_id, :string
 
@@ -19,5 +22,12 @@ defmodule Echo.Customer do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+  end
+
+  def find_or_create(app_user_id) do
+    case Repo.get_by(Customer, app_user_id: app_user_id) do
+      nil -> Repo.insert!(Customer.changeset(%Customer{}, %{ app_user_id: app_user_id }))
+      customer -> customer
+    end
   end
 end
