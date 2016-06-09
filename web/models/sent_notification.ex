@@ -31,6 +31,7 @@ defmodule Echo.SentNotification do
   def notification_ids_for_customer(customer) do
     from sent in SentNotification,
          where: sent.customer_id == ^customer.id,
+         where: sent.acknowledged == true,
          select: sent.notification_id
   end
 
