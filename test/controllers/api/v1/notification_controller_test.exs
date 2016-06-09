@@ -38,13 +38,23 @@ defmodule Echo.Api.V1.NotificationControllerTest do
     assert Echo.Repo.all(from c in SentNotification, select: count(c.id)) == [1]
   end
 
-  test "doesn't return a notification if it's been sent", %{conn: conn} do
+  test "doesn't return a notification if it's been sent and acknowledged", %{conn: conn} do
+    n = Echo.Repo.insert!(%Notification{})
+    c = Echo.Repo.insert!(%Customer{app_user_id: "big_ass_uuid"})
+    Echo.Repo.insert!(%SentNotification{customer_id: c.id, notification_id: n.id, acknowledged: true})
+
+    conn = get conn, api_v1_notification_path(conn, :index, user_id: c.app_user_id)
+    assert json_response(conn, 200)["notifications"] |> Enum.count == 0
+    assert Echo.Repo.all(from c in Customer, select: count(c.id)) == [1]
+  end
+
+  test "does return a notification if it's been sent and not acknowledged", %{conn: conn} do
     n = Echo.Repo.insert!(%Notification{})
     c = Echo.Repo.insert!(%Customer{app_user_id: "big_ass_uuid"})
     Echo.Repo.insert!(%SentNotification{customer_id: c.id, notification_id: n.id})
 
     conn = get conn, api_v1_notification_path(conn, :index, user_id: c.app_user_id)
-    assert json_response(conn, 200)["notifications"] |> Enum.count == 0
+    assert json_response(conn, 200)["notifications"] |> Enum.count == 1
     assert Echo.Repo.all(from c in Customer, select: count(c.id)) == [1]
   end
 
@@ -87,6 +97,13 @@ defmodule Echo.Api.V1.NotificationControllerTest do
 
     conn = put conn, api_v1_notification_path(conn, :update, notification, user_id: "big_ass_uuid")
     assert json_response(conn, 403)
+  end
+
+  test "doesn't bomb if fails to find notification", %{conn: conn} do
+    Echo.Repo.insert!(%Customer{app_user_id: "big_ass_uuid"})
+
+    conn = put conn, api_v1_notification_path(conn, :update, 32, user_id: "big_ass_uuid")
+    assert json_response(conn, 404)
   end
 
   # 1.3 has Calendar data types, but there's still some hurdles to jump through

@@ -40,7 +40,7 @@ defmodule Echo.NotificationController do
     changeset = Notification.changeset(notification, notification_params)
 
     case Repo.update(changeset) do
-      {:ok, notification} ->
+      {:ok, _} ->
         conn
         |> put_flash(:info, "Notification updated successfully.")
         |> redirect(to: notification_path(conn, :index))

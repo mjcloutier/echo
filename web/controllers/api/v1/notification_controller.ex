@@ -1,6 +1,8 @@
 defmodule Echo.Api.V1.NotificationController do
   use Echo.Web, :controller
 
+  import Echo.ControllerHelpers, only: [render_error: 2]
+
   alias Echo.Customer
   alias Echo.Notification
   alias Echo.SentNotification
@@ -16,17 +18,22 @@ defmodule Echo.Api.V1.NotificationController do
   end
 
   def update(conn, %{"id" => notification_id}) do
-    notification = Repo.get!(Notification, notification_id)
+    #notification = Repo.get(Notification, notification_id)
 
-    sent = Repo.get_by!(SentNotification, customer_id: conn.assigns.customer.id, notification_id: notification.id)
-    changeset = SentNotification.changeset(sent, %{acknowledged: true})
-
-    case Repo.update(changeset) do
-      {:ok, _} ->
-        conn
-        |> render("acknowledged.json")
-      {:error, _} ->
-        render(conn, "failed_ack.json", sent_notification: sent)
+    sent = Repo.get_by(SentNotification, customer_id: conn.assigns.customer.id, notification_id: notification_id)
+    unless sent do
+      conn
+      |> put_status(:not_found)
+      |> render "404.json"
+    else
+      changeset = SentNotification.changeset(sent, %{acknowledged: true})
+      case Repo.update(changeset) do
+        {:ok, _} ->
+          conn
+          |> render("acknowledged.json")
+        {:error, _} ->
+          render(conn, "failed_ack.json", sent_notification: sent)
+      end
     end
   end
 
