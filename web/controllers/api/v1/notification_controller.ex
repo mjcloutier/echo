@@ -17,9 +17,8 @@ defmodule Echo.Api.V1.NotificationController do
     Logger.debug "Current number of users: #{user_count}"
 
 
-    unread_notifications = conn.assigns[:unread_notifications]
-
     # Mark em as sent.
+    unread_notifications = conn.assigns[:unread_notifications]
     Enum.each(unread_notifications, fn notification ->
       # This could potentially dupe if we don't filter unread properly
       Repo.insert!(SentNotification.changeset(%SentNotification{}, %{ customer_id: conn.assigns[:customer].id, notification_id: notification.id }))
@@ -36,8 +35,13 @@ defmodule Echo.Api.V1.NotificationController do
   end
 
   defp filter_sent_notifications(conn, _opts) do
-    # TODO: actually filter this out.
-    assign(conn, :unread_notifications, Repo.all(Notification))
+    sent_notification_ids = Repo.all(from sent in SentNotification,
+                                      where: sent.customer_id == ^conn.assigns[:customer].id,
+                                      select: sent.notification_id)
+    unread_notifications =  Repo.all(from n in Notification,
+                                      where: not n.id in ^sent_notification_ids)
+
+    assign(conn, :unread_notifications, unread_notifications)
   end
 
   defp fetch_or_build_customer(conn, user_id) do
