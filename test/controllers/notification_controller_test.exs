@@ -29,18 +29,6 @@ defmodule Echo.NotificationControllerTest do
     assert html_response(conn, 200) =~ "New echo"
   end
 
-  test "shows chosen resource", %{conn: conn} do
-    notification = Repo.insert! %Notification{title: "Cherry blossom"}
-    conn = get conn, notification_path(conn, :show, notification)
-    assert html_response(conn, 200) =~ "Echo: Cherry blossom"
-  end
-
-  test "renders page not found when id is nonexistent", %{conn: conn} do
-    assert_error_sent 404, fn ->
-      get conn, notification_path(conn, :show, -1)
-    end
-  end
-
   test "renders form for editing chosen resource", %{conn: conn} do
     notification = Repo.insert! %Notification{}
     conn = get conn, notification_path(conn, :edit, notification)
@@ -50,7 +38,7 @@ defmodule Echo.NotificationControllerTest do
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
     notification = Repo.insert! %Notification{}
     conn = put conn, notification_path(conn, :update, notification), notification: @valid_attrs
-    assert redirected_to(conn) == notification_path(conn, :show, notification)
+    assert redirected_to(conn) == notification_path(conn, :index)
     assert Repo.get_by(Notification, @valid_attrs)
   end
 

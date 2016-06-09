@@ -6,7 +6,8 @@ defmodule Echo.NotificationController do
   plug :scrub_params, "notification" when action in [:create, :update]
 
   def index(conn, _params) do
-    notifications = Repo.all(Notification)
+    notifications = Repo.all(from n in Notification,
+                             order_by: n.inserted_at)
     render(conn, "index.html", notifications: notifications)
   end
 
@@ -28,11 +29,6 @@ defmodule Echo.NotificationController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    notification = Repo.get!(Notification, id)
-    render(conn, "show.html", notification: notification)
-  end
-
   def edit(conn, %{"id" => id}) do
     notification = Repo.get!(Notification, id)
     changeset = Notification.changeset(notification)
@@ -47,7 +43,7 @@ defmodule Echo.NotificationController do
       {:ok, notification} ->
         conn
         |> put_flash(:info, "Notification updated successfully.")
-        |> redirect(to: notification_path(conn, :show, notification))
+        |> redirect(to: notification_path(conn, :index))
       {:error, changeset} ->
         render(conn, "edit.html", notification: notification, changeset: changeset)
     end

@@ -23,6 +23,6 @@ defmodule Echo.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", NotificationController, :index
-    resources "/notifications", NotificationController
+    resources "/notifications", NotificationController, except: [:show]
   end
 end
