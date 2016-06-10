@@ -32,7 +32,7 @@
       <%= for notification <- @notifications do %>
           <tr>
             <td><%= notification.title %></td>
-            <td>Standard</td>
+            <td><%= echo_type_display(echo_type(notification), notification) %></td>
             <td><%= if notification.start_at do %><%= notification.start_at %><% else %>-<% end %></td>
             <td><%= if notification.end_at do %><%= notification.end_at %><% else %>-<% end %></td>
             <td>FMS - All</td>

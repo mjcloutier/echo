@@ -54,13 +54,23 @@ defmodule Echo.NotificationController do
     change_params = scrub_type_params(notification_params)
     changeset = Notification.changeset(notification, change_params)
 
+    echo_type =
+      cond do
+        notification.start_at ->
+          "scheduled"
+        notification.session_count ->
+          "login-count"
+        !notification.start_at && !notification.session_count ->
+          "immediate"
+      end
+
     case Repo.update(changeset) do
       {:ok, _} ->
         conn
         |> put_flash(:info, "Notification updated successfully.")
         |> redirect(to: notification_path(conn, :index))
       {:error, changeset} ->
-        render(conn, "edit.html", notification: notification, changeset: changeset)
+        render(conn, "edit.html", notification: notification, changeset: changeset, echo_type: echo_type)
     end
   end
 
