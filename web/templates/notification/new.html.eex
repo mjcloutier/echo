@@ -10,7 +10,8 @@
     <div class="col-xs-12">
       <%= render "form.html", changeset: @changeset,
                               action: notification_path(@conn, :create),
-                              conn: @conn %>
+                              conn: @conn,
+                              echo_type: default_echo_type %>
     </div><!-- /col-xs-12 -->
   </div><!-- /row -->
 </div><!-- /container -->

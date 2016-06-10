@@ -21,7 +21,8 @@
       <%= render "form.html", changeset: @changeset,
                               action: notification_path(@conn, :update, @notification),
                               conn: @conn,
-                              notification: @notification %>
+                              notification: @notification,
+                              echo_type: (@echo_type || default_echo_type) %>
 
     </div><!-- /col-xs-12 -->
   </div><!-- /row -->

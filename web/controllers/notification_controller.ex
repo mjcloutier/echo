@@ -13,6 +13,7 @@ defmodule Echo.NotificationController do
 
   def new(conn, _params) do
     changeset = Notification.changeset(%Notification{})
+
     render(conn, "new.html", changeset: changeset)
   end
 
@@ -32,7 +33,18 @@ defmodule Echo.NotificationController do
   def edit(conn, %{"id" => id}) do
     notification = Repo.get!(Notification, id)
     changeset = Notification.changeset(notification)
-    render(conn, "edit.html", notification: notification, changeset: changeset)
+
+    echo_type =
+      cond do
+        notification.start_at ->
+          "scheduled"
+        notification.session_count ->
+          "login-count"
+        !notification.start_at && !notification.session_count ->
+          "immediate"
+      end
+
+    render(conn, "edit.html", notification: notification, changeset: changeset, echo_type: echo_type)
   end
 
   def update(conn, %{"id" => id, "notification" => notification_params}) do

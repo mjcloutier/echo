@@ -32,7 +32,7 @@
       <div class="col-xs-3">
         <div class="form-group">
           <%= label f, :type, class: "control-label" %>
-          <%= select f, :type, echo_types, id: "echo-type", class: "form-control c-select" %>
+          <%= select f, :type, echo_types, value: @echo_type, id: "echo-type", class: "form-control c-select" %>
           <%= error_tag f, :type %>
         </div>
       </div><!-- /col-xs-3 -->

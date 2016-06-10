@@ -12,4 +12,8 @@ defmodule Echo.NotificationView do
       {"Login count", "login-count"}
     ]
   end
+
+  def default_echo_type do
+    "immediate"
+  end
 end
