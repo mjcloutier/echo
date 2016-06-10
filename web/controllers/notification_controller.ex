@@ -87,6 +87,9 @@ defmodule Echo.NotificationController do
     change_params =
       if params["immediate_end_at"] do
         %{ change_params | "end_at" => change_params["immediate_end_at"] }
+      else
+        change_params
       end
+    change_params
   end
 end
