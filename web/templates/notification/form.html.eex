@@ -58,7 +58,19 @@
       </div>
     </div>
 
-    <hr class="m-t-3" />
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="radio-group">
+          <%= label f, :html, class: "help-text" %>
+          <%= radio_button(f, :text_type, "html", checked: true, class: "radio-inline") %>
+
+          <%= label f, :markdown, class: "help-text" %>
+          <%= radio_button(f, :text_type, "markdown", disabled: true, class: "radio-inline") %>
+        </div>
+      </div>
+    </div>
+
+    <hr class="m-t-2" />
 
     <div class="form-group m-t-3">
       <%= link "Cancel", to: notification_path(@conn, :index), class: "btn btn-sm btn-link text-danger" %>

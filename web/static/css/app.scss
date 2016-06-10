@@ -62,6 +62,17 @@ body {
   font-family: "Lucida Console", "Lucida Sans Typewriter", monaco, "Bitstream Vera Sans Mono", monospace;
 }
 
+.radio-group {
+  margin-left: 15px;
+
+  .help-text {
+    font-size: 13px;
+  }
+  .radio-inline {
+    margin-left: 5px;
+  }
+}
+
 .control-label {
   font-weight: 500;
 }
