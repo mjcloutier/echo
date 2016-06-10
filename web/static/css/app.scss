@@ -11,9 +11,15 @@ body {
   display: flex;
 }
 
+.right-logo {
+  top: 30px;
+  left: 87%;
+  position: absolute;
+}
+
 .navigation-container {
   background: #444;
-  width: 100px;
+  width: 80px;
   height: 100vh;
   color: #CCC;
   padding: 2rem 1rem 1rem 1rem;
@@ -51,6 +57,10 @@ body {
   flex: 1;
 }
 
+.control-label {
+  font-weight: 500;
+}
+
 tr {
   transition: background-color 0.25s ease;
 }
@@ -59,7 +69,13 @@ tr {
   transition: background-color 0.25s ease;
 }
 
+.thin-text {
+  font-weight: 300;
+  line-height: 0.4;
+}
+
 .popover {
+  padding: 15px;
   top: 25% !important; // Don't try this at home, kids
   left: 40% !important;
   max-width: none;

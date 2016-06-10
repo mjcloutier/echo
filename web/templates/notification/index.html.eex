@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12">
-      <h2>Dashboard</h2>
+      <h2 class="thin-text">Dashboard</h2>
       <hr />
     </div><!-- /col-xs-12 -->
   </div><!-- /row -->
@@ -19,13 +19,13 @@
       <table class="table table-hover">
         <thead class="thead">
           <tr>
-            <th width="40%">Title</th>
+            <th width="25%">Title</th>
             <th width="15%">Type</th>
-            <th width="15%">Start date</th>
-            <th width="15%">End date</th>
-            <th width="10%">Users</th>
+            <th width="20%">Start date</th>
+            <th width="20%">End date</th>
+            <th width="20%">Users</th>
 
-            <th></th>
+            <th width="5%"></th>
           </tr>
         </thead>
         <tbody>
@@ -39,8 +39,9 @@
 
             <td class="text-right">
               <%= link to: notification_path(@conn, :edit, notification), class: "btn btn-secondary btn-sm" do %>
-                <i class="fa fa-pencil"></i>&nbsp;&nbsp;Edit
+                <i class="fa fa-pencil"></i>
               <% end %>
+            </td>
           </tr>
       <% end %>
         </tbody>

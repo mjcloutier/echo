@@ -61,9 +61,9 @@
     <hr class="m-t-3" />
 
     <div class="form-group m-t-3">
-      <%= link "Cancel", to: notification_path(@conn, :index), class: "btn btn-link text-danger" %>
-      <button type="button" id="preview" class="btn btn-info" data-toggle="popover" data-content="" >Preview</button>
-      <%= submit "Save", class: "btn btn-primary" %>
+      <%= link "Cancel", to: notification_path(@conn, :index), class: "btn btn-sm btn-link text-danger" %>
+      <button type="button" id="preview" class="btn btn-sm btn-info" data-toggle="popover" data-content="" >Preview</button>
+      <%= submit "Save", class: "btn btn-sm btn-primary" %>
     </div>
 
   <% end %>

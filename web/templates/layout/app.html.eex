@@ -47,6 +47,9 @@
         <% end %>
 
         <main role="main">
+          <span class='right-logo'>
+            <img src="<%= static_path(@conn, "/images/echo_logo_gray.svg") %>" height="40" alt="Echo logo" />
+          </span>
           <%= render @view_module, @view_template, assigns %>
         </main>
       </div><!-- /content-container -->
