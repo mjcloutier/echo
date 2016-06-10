@@ -18,6 +18,7 @@ defmodule Echo.NotificationController do
   end
 
   def create(conn, %{"notification" => notification_params}) do
+    change_params = scrub_type_params(notification_params)
     changeset = Notification.changeset(%Notification{}, notification_params)
 
     case Repo.insert(changeset) do
@@ -49,7 +50,9 @@ defmodule Echo.NotificationController do
 
   def update(conn, %{"id" => id, "notification" => notification_params}) do
     notification = Repo.get!(Notification, id)
-    changeset = Notification.changeset(notification, notification_params)
+
+    change_params = scrub_type_params(notification_params)
+    changeset = Notification.changeset(notification, change_params)
 
     case Repo.update(changeset) do
       {:ok, _} ->
@@ -71,5 +74,13 @@ defmodule Echo.NotificationController do
     conn
     |> put_flash(:info, "Notification deleted successfully.")
     |> redirect(to: notification_path(conn, :index))
+  end
+
+  def scrub_type_params(params) do
+    case params["type"] do
+      "immediate"   -> %{ params | "start_at" => nil, "session_count" => nil }
+      "scheduled"   -> %{ params | "session_count" => nil }
+      "login-count" -> %{ params | "start_at" => nil, "end_at" => nil }
+    end
   end
 end
