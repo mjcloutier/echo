@@ -32,10 +32,30 @@ defmodule Echo.NotificationView do
     for { a, b } <- echo_types, do: {b, a}
   end
 
+
+  def number_suffix(number) do
+    reverse_list = Integer.digits(number) |> Enum.reverse
+    str =
+    if Enum.at(reverse_list, 1) == 1 do
+      "th"
+    else
+      parse_suffix(Enum.at(reverse_list,0))
+    end
+  end
+
+  def parse_suffix(num) do
+    case num do
+      1 -> "st"
+      2 -> "nd"
+      3 -> "rd"
+      _ -> "th"
+    end
+  end
+
   def echo_type_display(type, notification) do
     cond do
       type == "login-count" ->
-        "Login Count (#{notification.session_count})"
+        "#{notification.session_count}#{number_suffix(notification.session_count)} Login"
       type == "immediate" ->
         "Immediate"
       type == "scheduled" ->
