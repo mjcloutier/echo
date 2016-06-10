@@ -9,7 +9,6 @@ defmodule Echo.Notification do
     field :title, :string
     field :body, :string
     field :summary, :string
-    field :type, :string
     field :session_count, :integer
     field :start_at, Ecto.Date
     field :end_at, Ecto.Date
@@ -18,7 +17,7 @@ defmodule Echo.Notification do
   end
 
   @required_fields ~w(title body)
-  @optional_fields ~w(summary start_at end_at type session_count)
+  @optional_fields ~w(summary start_at end_at session_count)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -36,7 +35,7 @@ defmodule Echo.Notification do
     query = available_today(customer)
     query =
       case sign_in_count do
-        nil -> from n in query, where: n.session_count == is_nil(n.session_count)
+        nil -> from n in query, where: n.session_count ==  is_nil(n.session_count)
         count -> from n in query, where: n.session_count == ^count or is_nil(n.session_count)
       end
     Repo.all(query)
