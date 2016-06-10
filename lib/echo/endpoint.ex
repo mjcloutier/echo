@@ -1,8 +1,9 @@
-defmodule Echo.CORS do
-  use Corsica.Router
+#defmodule Echo.CORS do
+  #use Corsica.Router
 
-  resource "/api/v1/*", origins: "*"
-end
+  #resource "/api/v1/*", origins: "*"
+  #resource "/api/v1/notifications/*", origins: "*"
+#end
 
 defmodule Echo.Endpoint do
   use Phoenix.Endpoint, otp_app: :echo
@@ -40,6 +41,10 @@ defmodule Echo.Endpoint do
     store: :cookie,
     key: "_echo_key",
     signing_salt: "769F+tvZ"
-  plug Echo.CORS
+
+  # Enabling CORS for specific route not working with Corsica
+  # so using CORSPlug for now.
+  #plug Echo.CORS
+  plug CORSPlug
   plug Echo.Router
 end
