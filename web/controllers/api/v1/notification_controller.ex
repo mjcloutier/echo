@@ -18,8 +18,6 @@ defmodule Echo.Api.V1.NotificationController do
   end
 
   def update(conn, %{"id" => notification_id}) do
-    #notification = Repo.get(Notification, notification_id)
-
     sent = Repo.get_by(SentNotification, customer_id: conn.assigns.customer.id, notification_id: notification_id)
     unless sent do
       conn
@@ -62,7 +60,10 @@ defmodule Echo.Api.V1.NotificationController do
 
   defp mark_new_notifications_as_sent(conn, _opts) do
     Enum.each(conn.assigns.unread_notifications, fn notification ->
-      SentNotification.create(conn.assigns.customer, notification)
+      case Repo.get_by(SentNotification, customer_id: conn.assigns.customer.id, notification_id: notification.id) do
+        nil -> SentNotification.create(conn.assigns.customer, notification)
+        _ -> nil
+      end
     end)
     conn
   end

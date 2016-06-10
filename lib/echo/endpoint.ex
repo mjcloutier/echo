@@ -1,9 +1,3 @@
-defmodule Echo.CORS do
-  use Corsica.Router
-
-  resource "/api/v1/*", origins: "*"
-end
-
 defmodule Echo.Endpoint do
   use Phoenix.Endpoint, otp_app: :echo
 
@@ -40,6 +34,7 @@ defmodule Echo.Endpoint do
     store: :cookie,
     key: "_echo_key",
     signing_salt: "769F+tvZ"
-  plug Echo.CORS
+
+  plug CORSPlug
   plug Echo.Router
 end
