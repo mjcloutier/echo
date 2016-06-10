@@ -58,3 +58,15 @@ tr {
 .btn {
   transition: background-color 0.25s ease;
 }
+
+.popover {
+  top: 25% !important; // Don't try this at home, kids
+  left: 40% !important;
+  max-width: none;
+}
+
+.blur {
+    background: #fff;
+    transition: background-color 0.25s ease;
+    opacity:0.2;
+}
