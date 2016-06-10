@@ -77,10 +77,16 @@ defmodule Echo.NotificationController do
   end
 
   def scrub_type_params(params) do
-    case params["type"] do
-      "immediate"   -> %{ params | "start_at" => nil, "session_count" => nil }
-      "scheduled"   -> %{ params | "session_count" => nil }
-      "login-count" -> %{ params | "start_at" => nil, "end_at" => nil }
-    end
+    change_params =
+      case params["type"] do
+        "immediate"   -> %{ params | "start_at" => nil, "session_count" => nil }
+        "scheduled"   -> %{ params | "session_count" => nil }
+        "login-count" -> %{ params | "start_at" => nil, "end_at" => nil, "immediate_end_at" => nil }
+      end
+
+    change_params =
+      if params["immediate_end_at"] do
+        %{ change_params | "end_at" => change_params["immediate_end_at"] }
+      end
   end
 end
