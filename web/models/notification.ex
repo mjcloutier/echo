@@ -9,8 +9,8 @@ defmodule Echo.Notification do
     field :title, :string
     field :body, :string
     field :summary, :string
-    field :start_at, Ecto.DateTime
-    field :end_at, Ecto.DateTime
+    field :start_at, Ecto.Date
+    field :end_at, Ecto.Date
 
     timestamps
   end

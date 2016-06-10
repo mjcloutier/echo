@@ -111,11 +111,11 @@ defmodule Echo.Api.V1.NotificationControllerTest do
   # So I gave up and I'm doing it the erlang way
   def gimme_the_past do
     {{y, month, d}, {_, _, _}} = :os.timestamp |> :calendar.now_to_datetime
-    {{y, month-1, d}, {0, 0, 0}} |> Ecto.DateTime.from_erl
+    {y, month-1, d} |> Ecto.Date.from_erl
   end
 
   def gimme_the_future do
     {{y, month, d}, {_, _, _}} = :os.timestamp |> :calendar.now_to_datetime
-    {{y, month+1, d}, {0, 0, 0}} |> Ecto.DateTime.from_erl
+    {y, month+1, d} |> Ecto.Date.from_erl
   end
 end
