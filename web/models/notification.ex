@@ -9,6 +9,8 @@ defmodule Echo.Notification do
     field :title, :string
     field :body, :string
     field :summary, :string
+    field :type, :string
+    field :session_count, :integer
     field :start_at, Ecto.Date
     field :end_at, Ecto.Date
 
@@ -16,7 +18,7 @@ defmodule Echo.Notification do
   end
 
   @required_fields ~w(title body)
-  @optional_fields ~w(summary start_at end_at)
+  @optional_fields ~w(summary start_at end_at type session_count)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

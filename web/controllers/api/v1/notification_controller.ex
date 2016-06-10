@@ -22,7 +22,7 @@ defmodule Echo.Api.V1.NotificationController do
     unless sent do
       conn
       |> put_status(:not_found)
-      |> render "404.json"
+      |> render("404.json")
     else
       changeset = SentNotification.changeset(sent, %{acknowledged: true})
       case Repo.update(changeset) do
