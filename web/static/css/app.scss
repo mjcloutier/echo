@@ -51,6 +51,7 @@ body {
 .delete-echo-container {
   display: inline-block;
   float: right;
+  margin-right: 1.0em;
 }
 
 .content-container {
@@ -84,6 +85,7 @@ tr {
 .btn {
   transition: background-color 0.25s ease;
 }
+
 
 .thin-text {
   font-weight: 300;

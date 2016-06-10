@@ -18,8 +18,6 @@ defmodule Echo.Api.V1.NotificationController do
   end
 
   def update(conn, %{"id" => notification_id}) do
-    #notification = Repo.get(Notification, notification_id)
-
     sent = Repo.get_by(SentNotification, customer_id: conn.assigns.customer.id, notification_id: notification_id)
     unless sent do
       conn
