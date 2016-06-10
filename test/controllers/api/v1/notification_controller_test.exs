@@ -116,6 +116,24 @@ defmodule Echo.Api.V1.NotificationControllerTest do
     assert json_response(conn, 404)
   end
 
+  test "fetches session notifications if given a sign_in_count", %{conn: conn} do
+    Echo.Repo.insert!(%Notification{session_count: 1})
+    Echo.Repo.insert!(%Notification{session_count: 3})
+    Echo.Repo.insert!(%Notification{})
+
+    conn = get conn, api_v1_notification_path(conn, :index, user_id: "big_ass_uuid", sign_in_count: 1)
+    assert json_response(conn, 200)["notifications"] |> Enum.count == 2
+  end
+
+  test "ignores session notifications if no sign in is passed", %{conn: conn} do
+    Echo.Repo.insert!(%Notification{session_count: 1})
+    Echo.Repo.insert!(%Notification{session_count: 3})
+    Echo.Repo.insert!(%Notification{})
+
+    conn = get conn, api_v1_notification_path(conn, :index, user_id: "big_ass_uuid")
+    assert json_response(conn, 200)["notifications"] |> Enum.count == 1
+  end
+
   # 1.3 has Calendar data types, but there's still some hurdles to jump through
   # to interop with Ecto.DateTimes, couldn't just Calendar.DateTime.now |> ...add(30) |> Ecto.DateTime.parse
   # So I gave up and I'm doing it the erlang way

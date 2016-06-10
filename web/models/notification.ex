@@ -32,13 +32,23 @@ defmodule Echo.Notification do
     |> validate_length(:title, min: 3)
   end
 
-  def unread_for(customer) do
-    today = :os.timestamp |> :calendar.now_to_datetime |> Ecto.DateTime.from_erl
+  def unread_for(customer, sign_in_count) do
+    query = available_today(customer)
+    query =
+      case sign_in_count do
+        nil -> from n in query, where: n.session_count == is_nil(n.session_count)
+        count -> from n in query, where: n.session_count == ^count or is_nil(n.session_count)
+      end
+    Repo.all(query)
+  end
 
+  def available_today(customer) do
+    today = :os.timestamp |> :calendar.now_to_datetime |> Ecto.DateTime.from_erl
     notification_ids = Repo.all(SentNotification.notification_ids_for_customer(customer))
-    Repo.all(from n in Notification,
-             where: not n.id in ^notification_ids,
-             where: n.end_at   > ^today or is_nil(n.end_at),
-             where: n.start_at <= ^today or is_nil(n.start_at))
+
+    from n in Notification,
+       where: not n.id in ^notification_ids,
+       where: n.end_at   > ^today or is_nil(n.end_at),
+       where: n.start_at <= ^today or is_nil(n.start_at)
   end
 end
