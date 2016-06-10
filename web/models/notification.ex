@@ -37,6 +37,6 @@ defmodule Echo.Notification do
     Repo.all(from n in Notification,
              where: not n.id in ^notification_ids,
              where: n.end_at   > ^today or is_nil(n.end_at),
-             where: n.start_at < ^today or is_nil(n.start_at))
+             where: n.start_at <= ^today or is_nil(n.start_at))
   end
 end
