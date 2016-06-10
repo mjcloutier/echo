@@ -52,7 +52,7 @@
       <div class="col-xs-12">
         <div class="form-group">
           <%= label f, :body, class: "control-label" %>
-          <%= textarea f, :body, rows: "9", class: "form-control", id: "body" %>
+          <%= textarea f, :body, rows: "16", class: "form-control text-editor", id: "body" %>
           <%= error_tag f, :body %>
         </div>
       </div>
