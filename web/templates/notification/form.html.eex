@@ -52,7 +52,7 @@
       <div class="col-xs-12">
         <div class="form-group">
           <%= label f, :body, class: "control-label" %>
-          <%= textarea f, :body, rows: "16", class: "form-control text-editor", id: "body", spellcheck: "false" %>
+          <%= textarea f, :body, rows: "16", class: "form-control text-editor", id: "echo-body", spellcheck: "false" %>
           <%= error_tag f, :body %>
         </div>
       </div>
@@ -72,9 +72,9 @@
 
     <hr class="m-t-2" />
 
-    <div class="form-group m-t-3">
-      <%= link "Cancel", to: notification_path(@conn, :index), class: "btn btn-sm btn-link text-danger" %>
-      <button type="button" id="preview" class="btn btn-sm btn-info" data-toggle="popover" data-content="" >Preview</button>
+    <div class="form-group m-t-3 pull-right">
+      <%= link "Cancel", to: notification_path(@conn, :index), class: "btn btn-sm btn-link text-gray" %>
+      <button type="button" id="preview" class="btn btn-sm btn-secondary" data-toggle="popover" data-content="" >Preview</button>
       <%= submit "Save", class: "btn btn-sm btn-primary" %>
     </div>
 
@@ -102,7 +102,7 @@
           trigger: 'focus',
           container: '.app-container',
           content: function() {
-            return $.parseHTML($("#body").val());
+            return $.parseHTML($("#echo-body").val());
           },
         })
     });

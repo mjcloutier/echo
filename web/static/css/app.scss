@@ -102,3 +102,11 @@ tr {
     transition: background-color 0.25s ease;
     opacity:0.2;
 }
+
+.text-gray {
+  color: #999;
+
+  &:hover {
+    color: #999;
+  }
+}
