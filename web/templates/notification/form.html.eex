@@ -24,7 +24,7 @@
       <div class="col-xs-3">
         <div class="form-group">
           <%= label f, :application, class: "control-label" %>
-          <%= select f, :application, ["FMS"], class: "form-control c-select" %>
+          <%= select f, :application, application_types, class: "form-control c-select" %>
           <%= error_tag f, :application %>
         </div>
       </div><!-- /col-xs-2 -->
@@ -32,7 +32,7 @@
       <div class="col-xs-3">
         <div class="form-group">
           <%= label f, :type, class: "control-label" %>
-          <%= select f, :type, [{"Immediate", "immediate"}, {"Scheduled", "scheduled"}, {"Login count", "login-count"}], id: "echo-type", class: "form-control c-select" %>
+          <%= select f, :type, echo_types, id: "echo-type", class: "form-control c-select" %>
           <%= error_tag f, :type %>
         </div>
       </div><!-- /col-xs-3 -->
