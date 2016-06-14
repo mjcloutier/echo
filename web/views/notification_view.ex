@@ -28,14 +28,9 @@ defmodule Echo.NotificationView do
     end
   end
 
-  def flipped_echo_type(notification) do
-    for { a, b } <- echo_types, do: {b, a}
-  end
-
-
   def number_suffix(number) do
     reverse_list = Integer.digits(number) |> Enum.reverse
-    str =
+
     if Enum.at(reverse_list, 1) == 1 do
       "th"
     else
