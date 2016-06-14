@@ -10,7 +10,8 @@
       <table class="table table-hover">
         <thead class="thead">
           <tr>
-            <th width="90%">Name</th>
+            <th width="80%">Name</th>
+            <th width="15%">Created</th>
 
             <th></th>
           </tr>
@@ -19,7 +20,8 @@
         <tbody>
           <%= for application <- @applications do %>
           <tr>
-            <td>App name</td>
+            <td><%= application.name %></td>
+            <td><%= application.inserted_at %></td>
 
             <td>
               <a href="" class="btn btn-sm btn-secondary">Edit</a>

@@ -1,0 +1,22 @@
+<div class="container-fluid">
+  <%= form_for @changeset, @action, fn f -> %>
+    <div class="row">
+      <div class="col-xs-12">
+        <%= label f, :name, class: "control-label" %>
+        <%= text_input f, :name, required: true,
+                                 placeholder: "The Best Application (Production)",
+                                 class: "form-control" %>
+      </div><!-- /col-xs-12 -->
+    </div><!-- /row -->
+
+    <div class="row">
+      <div class="col-xs-12">
+        <hr class="m-t-2" />
+
+        <div class="form-group pull-right">
+          <%= submit "Save", class: "btn btn-sm btn-primary" %>
+        </div>
+      </div><!-- /col-xs-12 -->
+    </div><!-- /row -->
+  <% end %>
+</div>
