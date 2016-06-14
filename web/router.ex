@@ -26,5 +26,6 @@ defmodule Echo.Router do
     resources "/notifications", NotificationController, except: [:show]
 
     get "/settings", SettingsController, :index
+    resources "/settings/applications", Settings.ApplicationController, only: [:index]
   end
 end
