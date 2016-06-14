@@ -20,9 +20,11 @@ defmodule Echo.Router do
   end
 
   scope "/", Echo do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
 
     get "/", NotificationController, :index
     resources "/notifications", NotificationController, except: [:show]
+
+    get "/settings", SettingsController, :index
   end
 end
