@@ -35,7 +35,7 @@ defmodule Echo.Notification do
     query = available_today(customer)
     query =
       case sign_in_count do
-        nil -> from n in query, where: n.session_count ==  is_nil(n.session_count)
+        nil -> from n in query, where: is_nil(n.session_count)
         count -> from n in query, where: n.session_count == ^count or is_nil(n.session_count)
       end
     Repo.all(query)
