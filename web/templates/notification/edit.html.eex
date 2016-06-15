@@ -22,8 +22,8 @@
                               action: notification_path(@conn, :update, @notification),
                               conn: @conn,
                               notification: @notification,
-                              echo_type: (@echo_type || default_echo_type) %>
-
+                              echo_type: (@echo_type || default_echo_type),
+                              available_applications: @available_applications %>
     </div><!-- /col-xs-12 -->
   </div><!-- /row -->
 </div><!-- /container -->

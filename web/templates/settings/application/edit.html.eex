@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12">
-      <h2 class='thin-text'>New echo</h2>
+      <h2 class='thin-text'>Edit Application</h2>
       <hr />
     </div><!-- /col-xs-12 -->
   </div><!-- /row -->
@@ -9,10 +9,11 @@
   <div class="row">
     <div class="col-xs-12">
       <%= render "form.html", changeset: @changeset,
-                              action: notification_path(@conn, :create),
-                              conn: @conn,
-                              echo_type: default_echo_type,
-                              available_applications: @available_applications %>
+                              action: application_path(
+                                @conn,
+                                :update,
+                                @application
+                              ) %>
     </div><!-- /col-xs-12 -->
   </div><!-- /row -->
 </div><!-- /container -->

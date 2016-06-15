@@ -1,0 +1,23 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1 class="thin-text">Settings</h1>
+    </div><!-- /col-xs-12 -->
+  </div><!-- /row -->
+
+  <div class="row m-t-2">
+    <div class="col-xs-6 col-md-4 col-lg-3">
+      <div class="card card-block">
+        <h3 class="card-title">Applications</h3>
+
+        <p class="card-text">
+          Applications are the different environments that are allowed to access
+          Echo.
+        </p>
+
+        <%= link "View/Manage", to: application_path(@conn, :index),
+                                class: "btn btn-secondary" %>
+      </div>
+    </div><!-- /col-xs-6 col-md-4 col-lg-3 -->
+  </div><!-- /row -->
+</div>

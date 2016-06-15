@@ -5,7 +5,8 @@ defmodule Echo.NotificationTest do
 
   @valid_attrs %{
     title: "Cool peas",
-    body: "some content"
+    body: "some content",
+    application_id: 1337
   }
   @invalid_attrs %{}
 

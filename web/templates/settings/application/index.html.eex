@@ -1,0 +1,43 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1 class="thin-text">Applications</h1>
+    </div><!-- /col-xs-12 -->
+  </div><!-- /row -->
+
+  <div class="row">
+    <div class="col-xs-12">
+      <%= link "New Application", to: application_path(@conn, :new),
+                                  class: "btn btn-sm btn-primary m-t-2" %>
+    </div><!-- /col-xs-12 -->
+  </div><!-- /row -->
+
+  <div class="row m-t-2">
+    <div class="col-xs-12">
+      <table class="table table-hover">
+        <thead class="thead">
+          <tr>
+            <th width="80%">Name</th>
+            <th width="15%">Created</th>
+
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <%= for application <- @applications do %>
+          <tr>
+            <td><%= application.name %></td>
+            <td><%= application.inserted_at %></td>
+
+            <td>
+              <%= link "Edit", to: application_path(@conn, :edit, application),
+                               class: "btn btn-sm btn-secondary" %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div><!-- /row -->
+</div>

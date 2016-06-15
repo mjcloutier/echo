@@ -2,24 +2,28 @@ defmodule Echo.NotificationController do
   use Echo.Web, :controller
 
   alias Echo.Notification
+  alias Echo.Application
 
   plug :scrub_params, "notification" when action in [:create, :update]
 
   def index(conn, _params) do
-    notifications = Repo.all(from n in Notification,
-                             order_by: [desc: n.inserted_at])
+    notifications =
+      Repo.all(from n in Notification,
+               order_by: [desc: n.inserted_at])
+        |> Repo.preload([:application])
     render(conn, "index.html", notifications: notifications)
   end
 
   def new(conn, _params) do
     changeset = Notification.changeset(%Notification{})
 
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset,
+                             available_applications: Application.available)
   end
 
   def create(conn, %{"notification" => notification_params}) do
     change_params = scrub_type_params(notification_params)
-    changeset = Notification.changeset(%Notification{}, notification_params)
+    changeset = Notification.changeset(%Notification{}, change_params)
 
     case Repo.insert(changeset) do
       {:ok, _notification} ->
@@ -27,12 +31,15 @@ defmodule Echo.NotificationController do
         |> put_flash(:info, "Notification created successfully.")
         |> redirect(to: notification_path(conn, :index))
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset,
+                                 available_applications: Application.available)
     end
   end
 
   def edit(conn, %{"id" => id}) do
-    notification = Repo.get!(Notification, id)
+    notification =
+      Repo.get!(Notification, id)
+      |> Repo.preload([:application])
     changeset = Notification.changeset(notification)
 
     echo_type =
@@ -45,7 +52,10 @@ defmodule Echo.NotificationController do
           "immediate"
       end
 
-    render(conn, "edit.html", notification: notification, changeset: changeset, echo_type: echo_type)
+    render(conn, "edit.html", notification: notification,
+                              changeset: changeset,
+                              echo_type: echo_type,
+                              available_applications: Application.available)
   end
 
   def update(conn, %{"id" => id, "notification" => notification_params}) do
@@ -70,7 +80,10 @@ defmodule Echo.NotificationController do
         |> put_flash(:info, "Notification updated successfully.")
         |> redirect(to: notification_path(conn, :index))
       {:error, changeset} ->
-        render(conn, "edit.html", notification: notification, changeset: changeset, echo_type: echo_type)
+        render(conn, "edit.html", notification: notification,
+                                  changeset: changeset,
+                                  echo_type: echo_type,
+                                  available_applications: Application.available)
     end
   end
 
@@ -89,17 +102,15 @@ defmodule Echo.NotificationController do
   def scrub_type_params(params) do
     change_params =
       case params["type"] do
-        "immediate"   -> %{ params | "start_at" => nil, "session_count" => nil }
-        "scheduled"   -> %{ params | "session_count" => nil }
-        "login-count" -> %{ params | "start_at" => nil, "end_at" => nil, "immediate_end_at" => nil }
+        "immediate"   -> %{params | "start_at" => nil, "session_count" => nil}
+        "scheduled"   -> %{params | "session_count" => nil}
+        "login-count" -> %{params | "start_at" => nil, "end_at" => nil, "immediate_end_at" => nil}
       end
 
-    change_params =
-      if params["immediate_end_at"] do
-        %{ change_params | "end_at" => change_params["immediate_end_at"] }
-      else
-        change_params
-      end
-    change_params
+    if params["immediate_end_at"] do
+      %{change_params | "end_at" => change_params["immediate_end_at"]}
+    else
+      change_params
+    end
   end
 end

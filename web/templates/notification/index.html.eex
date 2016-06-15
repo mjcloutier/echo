@@ -21,8 +21,9 @@
           <tr>
             <th width="25%">Title</th>
             <th width="15%">Type</th>
-            <th width="20%">Start date</th>
-            <th width="20%">End date</th>
+            <th width="15%">Application</th>
+            <th width="10%">Start date</th>
+            <th width="10%">End date</th>
             <th width="20%">Users</th>
 
             <th width="5%"></th>
@@ -33,6 +34,7 @@
           <tr>
             <td><%= notification.title %></td>
             <td><%= echo_type_display(echo_type(notification), notification) %></td>
+            <td><%= if notification.application_id do %><%= notification.application.name %><% end %></td>
             <td><%= if notification.start_at do %><%= notification.start_at %><% else %>-<% end %></td>
             <td><%= if notification.end_at do %><%= notification.end_at %><% else %>-<% end %></td>
             <td>FMS - All</td>
