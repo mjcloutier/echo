@@ -2,6 +2,7 @@ defmodule Echo.Notification do
   use Echo.Web, :model
 
   alias Echo.Repo
+  alias Echo.Application
   alias Echo.Notification
   alias Echo.SentNotification
 
@@ -12,11 +13,12 @@ defmodule Echo.Notification do
     field :session_count, :integer
     field :start_at, Ecto.Date
     field :end_at, Ecto.Date
+    belongs_to :application, Application
 
     timestamps
   end
 
-  @required_fields ~w(title body)
+  @required_fields ~w(title body application_id)
   @optional_fields ~w(summary start_at end_at session_count)
 
   @doc """

@@ -1,8 +1,11 @@
 defmodule Echo.Application do
   use Echo.Web, :model
 
+  alias Echo.Application
+
   schema "applications" do
     field :name, :string
+    has_many :notifications, Application
 
     timestamps
   end

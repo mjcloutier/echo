@@ -2,19 +2,25 @@ defmodule Echo.NotificationController do
   use Echo.Web, :controller
 
   alias Echo.Notification
+  alias Echo.Application
 
   plug :scrub_params, "notification" when action in [:create, :update]
 
   def index(conn, _params) do
-    notifications = Repo.all(from n in Notification,
-                             order_by: [desc: n.inserted_at])
+    notifications =
+      Repo.all(from n in Notification,
+               order_by: [desc: n.inserted_at])
+        |> Repo.preload([:application])
     render(conn, "index.html", notifications: notifications)
   end
 
   def new(conn, _params) do
+    available_applications = Repo.all(from a in Application,
+                                      select: {a.name, a.id})
     changeset = Notification.changeset(%Notification{})
 
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset,
+                             available_applications: available_applications)
   end
 
   def create(conn, %{"notification" => notification_params}) do
@@ -32,7 +38,11 @@ defmodule Echo.NotificationController do
   end
 
   def edit(conn, %{"id" => id}) do
-    notification = Repo.get!(Notification, id)
+    notification =
+      Repo.get!(Notification, id)
+      |> Repo.preload([:application])
+    available_applications = Repo.all(from a in Application,
+                                      select: {a.name, a.id})
     changeset = Notification.changeset(notification)
 
     echo_type =
@@ -45,7 +55,10 @@ defmodule Echo.NotificationController do
           "immediate"
       end
 
-    render(conn, "edit.html", notification: notification, changeset: changeset, echo_type: echo_type)
+    render(conn, "edit.html", notification: notification,
+                              changeset: changeset,
+                              echo_type: echo_type,
+                              available_applications: available_applications)
   end
 
   def update(conn, %{"id" => id, "notification" => notification_params}) do
