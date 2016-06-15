@@ -47,7 +47,7 @@ defmodule Echo.Settings.ApplicationController do
       {:ok, _} ->
         conn
         |> put_flash(:info, "Application updated successfully")
-        |> redirect to: application_path(conn, :index)
+        |> redirect(to: application_path(conn, :index))
       {:error, changeset} ->
         render conn, "edit.html", changeset: changeset, application: application
     end

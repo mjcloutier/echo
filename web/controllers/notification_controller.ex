@@ -19,7 +19,7 @@ defmodule Echo.NotificationController do
 
   def create(conn, %{"notification" => notification_params}) do
     change_params = scrub_type_params(notification_params)
-    changeset = Notification.changeset(%Notification{}, notification_params)
+    changeset = Notification.changeset(%Notification{}, change_params)
 
     case Repo.insert(changeset) do
       {:ok, _notification} ->
