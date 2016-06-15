@@ -15,12 +15,10 @@ defmodule Echo.NotificationController do
   end
 
   def new(conn, _params) do
-    available_applications = Repo.all(from a in Application,
-                                      select: {a.name, a.id})
     changeset = Notification.changeset(%Notification{})
 
     render(conn, "new.html", changeset: changeset,
-                             available_applications: available_applications)
+                             available_applications: Application.available)
   end
 
   def create(conn, %{"notification" => notification_params}) do
@@ -33,7 +31,8 @@ defmodule Echo.NotificationController do
         |> put_flash(:info, "Notification created successfully.")
         |> redirect(to: notification_path(conn, :index))
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset,
+                                 available_applications: Application.available)
     end
   end
 
@@ -41,8 +40,6 @@ defmodule Echo.NotificationController do
     notification =
       Repo.get!(Notification, id)
       |> Repo.preload([:application])
-    available_applications = Repo.all(from a in Application,
-                                      select: {a.name, a.id})
     changeset = Notification.changeset(notification)
 
     echo_type =
@@ -58,7 +55,7 @@ defmodule Echo.NotificationController do
     render(conn, "edit.html", notification: notification,
                               changeset: changeset,
                               echo_type: echo_type,
-                              available_applications: available_applications)
+                              available_applications: Application.available)
   end
 
   def update(conn, %{"id" => id, "notification" => notification_params}) do
@@ -85,7 +82,8 @@ defmodule Echo.NotificationController do
       {:error, changeset} ->
         render(conn, "edit.html", notification: notification,
                                   changeset: changeset,
-                                  echo_type: echo_type)
+                                  echo_type: echo_type,
+                                  available_applications: Application.available)
     end
   end
 
