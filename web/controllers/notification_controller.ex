@@ -70,7 +70,9 @@ defmodule Echo.NotificationController do
         |> put_flash(:info, "Notification updated successfully.")
         |> redirect(to: notification_path(conn, :index))
       {:error, changeset} ->
-        render(conn, "edit.html", notification: notification, changeset: changeset, echo_type: echo_type)
+        render(conn, "edit.html", notification: notification,
+                                  changeset: changeset,
+                                  echo_type: echo_type)
     end
   end
 

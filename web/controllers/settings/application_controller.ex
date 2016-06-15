@@ -31,4 +31,25 @@ defmodule Echo.Settings.ApplicationController do
 
     render conn, "new.html"
   end
+
+  def edit(conn, %{"id" => id}) do
+    application = Repo.get!(Application, id)
+    changeset = Application.changeset application
+
+    render conn, "edit.html", changeset: changeset, application: application
+  end
+
+  def update(conn, %{"id" => id, "application" => application_params}) do
+    application = Repo.get! Application, id
+    changeset = Application.changeset application, application_params
+
+    case Repo.update(changeset) do
+      {:ok, _} ->
+        conn
+        |> put_flash(:info, "Application updated successfully")
+        |> redirect to: application_path(conn, :index)
+      {:error, changeset} ->
+        render conn, "edit.html", changeset: changeset, application: application
+    end
+  end
 end

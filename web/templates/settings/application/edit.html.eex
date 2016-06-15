@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2 class='thin-text'>Edit Application</h2>
+      <hr />
+    </div><!-- /col-xs-12 -->
+  </div><!-- /row -->
+
+  <div class="row">
+    <div class="col-xs-12">
+      <%= render "form.html", changeset: @changeset,
+                              action: application_path(
+                                @conn,
+                                :update,
+                                @application
+                              ) %>
+    </div><!-- /col-xs-12 -->
+  </div><!-- /row -->
+</div><!-- /container -->

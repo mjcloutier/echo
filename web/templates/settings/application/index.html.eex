@@ -24,7 +24,8 @@
             <td><%= application.inserted_at %></td>
 
             <td>
-              <a href="" class="btn btn-sm btn-secondary">Edit</a>
+              <%= link "Edit", to: application_path(@conn, :edit, application),
+                               class: "btn btn-sm btn-secondary" %>
             </td>
           </tr>
           <% end %>
