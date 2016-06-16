@@ -38,6 +38,7 @@ defmodule Echo.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:cors_plug, "~> 1.1"},
+     {:guardian, "~> 0.12.0"},
      {:hound, "~> 1.0"}]
   end
 
