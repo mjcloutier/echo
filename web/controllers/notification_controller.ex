@@ -5,12 +5,16 @@ defmodule Echo.NotificationController do
   alias Echo.Application
 
   plug :scrub_params, "notification" when action in [:create, :update]
+  plug Guardian.Plug.VerifySession
+  plug Guardian.Plug.LoadResource
+  plug Guardian.Plug.EnsureAuthenticated, handler: Echo.Authentication.Plug.ErrorHandler
 
   def index(conn, _params) do
     notifications =
       Repo.all(from n in Notification,
                order_by: [desc: n.inserted_at])
-        |> Repo.preload([:application])
+      |> Repo.preload([:application])
+
     render(conn, "index.html", notifications: notifications)
   end
 
