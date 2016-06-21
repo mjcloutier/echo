@@ -32,4 +32,9 @@ config :logger, :console, format: "[$level] $message\n"
 # and calculating stacktraces is usually expensive.
 config :phoenix, :stacktrace_depth, 20
 
+config :echo, Echo.Google,
+  client_id: "391752003191-379ke4ao3lrolpr2070sm6m6ajgjoit0.apps.googleusercontent.com",
+  client_secret: "kb4HocJG2XHC5YqhCE4mKxnb",
+  redirect_uri: "http://localhost:4000/auth/google/callback"
+
 import_config "dev.secret.exs"

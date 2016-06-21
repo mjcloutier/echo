@@ -14,6 +14,9 @@ config :echo, Echo.Endpoint,
   pubsub: [name: Echo.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :echo, Echo,
+  valid_oauth_domains: ["rednovalabs.com"]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -27,5 +30,18 @@ import_config "#{Mix.env}.exs"
 config :phoenix, :generators,
   migration: true,
   binary_id: false
+
+# Guardian
+config :guardian, Guardian,
+  allowed_algos: ["HS512"],
+  issuer: "Echo",
+  ttl: {30, :days},
+  serializer: Echo.Guardian.OAuthUserSerializer,
+  secret_key: %{
+    "alg" => "HS512",
+    "k" => "Oi3FKPKUgTUSGsrvGYCJ6bZj3fIooiDNwA9pjTXMMzYNMbIUfHQCNS1QZ-V-cxYY8TlsBaOWaNaHk76NRpSHCw",
+    "kty" => "oct",
+    "use" => "sig"
+  }
 
 config :hound, driver: "phantomjs"

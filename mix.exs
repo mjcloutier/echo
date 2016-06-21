@@ -19,7 +19,7 @@ defmodule Echo.Mixfile do
   def application do
     [mod: {Echo, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :oauth2]]
   end
 
   # Specifies which paths to compile per environment.
@@ -39,6 +39,7 @@ defmodule Echo.Mixfile do
      {:cowboy, "~> 1.0"},
      {:cors_plug, "~> 1.1"},
      {:oauth2, "~> 0.5"},
+     {:guardian, "~> 0.12.0"},
      {:hound, "~> 1.0"}]
   end
 
