@@ -1,6 +1,9 @@
 defmodule Echo.Router do
   use Echo.Web, :router
 
+  alias Echo.Repo
+  alias Echo.Application
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -16,12 +19,18 @@ defmodule Echo.Router do
     plug :assign_current_user
   end
 
+  pipeline :api_authentication do
+    plug :verify_application
+    plug :sign_in_application
+    plug Guardian.Plug.EnsureAuthenticated, handler: Echo.Authentication.Plug.Api.ErrorHandler
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
 
   scope "/api/v1", Echo.Api.V1, as: :api_v1 do
-    pipe_through :api
+    pipe_through [:api, :api_authentication]
 
     resources "/notifications", NotificationController, only: [:index, :update]
   end
@@ -55,5 +64,20 @@ defmodule Echo.Router do
   defp assign_current_user(conn, _params) do
     conn
     |> assign(:current_user, Guardian.Plug.current_resource(conn))
+  end
+
+  defp verify_application(conn, _params) do
+    app_key = conn |> get_req_header("app_id") |> Enum.at(0)
+    app_secret = conn |> get_req_header("app_secret") |> Enum.at(0)
+    application = Repo.get_by(Application, key: app_key, secret: app_secret)
+
+    conn |> assign(:application_id, application.id)
+  end
+
+  defp sign_in_application(conn, _params) do
+    application = Repo.get(Application, conn.assigns.application_id)
+
+    conn
+    |> Guardian.Plug.api_sign_in(application)
   end
 end
