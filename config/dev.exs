@@ -33,8 +33,8 @@ config :logger, :console, format: "[$level] $message\n"
 config :phoenix, :stacktrace_depth, 20
 
 config :echo, Echo.Google,
-  client_id: "391752003191-379ke4ao3lrolpr2070sm6m6ajgjoit0.apps.googleusercontent.com",
-  client_secret: "kb4HocJG2XHC5YqhCE4mKxnb",
+  client_id: "729002142760-04tsuh7hav6demmova0vpmhkdl0ahd47.apps.googleusercontent.com",
+  client_secret: "uF7VeT_BObOj2jXUaAu504aP",
   redirect_uri: "http://localhost:4000/auth/google/callback"
 
 import_config "dev.secret.exs"
