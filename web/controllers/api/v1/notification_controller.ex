@@ -55,7 +55,7 @@ defmodule Echo.Api.V1.NotificationController do
   end
 
   defp find_unread_relevant_notifications(conn, _opts) do
-    assign(conn, :unread_notifications, Notification.unread_for(conn.assigns.customer, conn.params["sign_in_count"]))
+    assign(conn, :unread_notifications, Notification.unread_for(conn.assigns.application_id, conn.assigns.customer, conn.params["sign_in_count"]))
   end
 
   defp mark_new_notifications_as_sent(conn, _opts) do

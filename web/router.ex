@@ -67,10 +67,9 @@ defmodule Echo.Router do
   end
 
   defp verify_application(conn, _params) do
-    app_key = conn |> get_req_header("app_id") |> Enum.at(0)
-    app_secret = conn |> get_req_header("app_secret") |> Enum.at(0)
-    application = Repo.get_by(Application, key: app_key, secret: app_secret)
-
+    app_key = conn.params["app_id"] || conn |> get_req_header("app_id") |> Enum.at(0)
+    app_secret = conn.params["app_secret"] || conn |> get_req_header("app_secret") |> Enum.at(0)
+    application = Repo.get_by(Application, app_key: app_key, app_secret: app_secret)
     conn |> assign(:application_id, application.id)
   end
 
