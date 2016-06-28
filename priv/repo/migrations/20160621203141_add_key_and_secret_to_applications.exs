@@ -3,10 +3,10 @@ defmodule Echo.Repo.Migrations.AddKeyAndSecretToApplications do
 
   def change do
     alter table(:applications) do
-      add :key, :string
-      add :secret, :string
+      add :app_key, :string
+      add :app_secret, :string
     end
 
-    create index(:applications, [:key, :secret])
+    create index(:applications, [:app_key, :app_secret])
   end
 end

@@ -17,7 +17,10 @@ defmodule Echo.Settings.ApplicationController do
   end
 
   def create(conn, %{"application" => application_params}) do
-    changeset = Application.changeset(%Application{}, application_params)
+    key    = :crypto.strong_rand_bytes(32) |> Base.encode64
+    secret = :crypto.strong_rand_bytes(32) |> Base.encode64
+    create_params = Map.merge(application_params, %{ "app_key" => key, "app_secret" => secret })
+    changeset = Application.changeset(%Application{}, create_params)
 
     case Repo.insert(changeset) do
       {:ok, _application} ->
@@ -31,6 +34,7 @@ defmodule Echo.Settings.ApplicationController do
 
     render conn, "new.html"
   end
+
 
   def edit(conn, %{"id" => id}) do
     application = Repo.get!(Application, id)

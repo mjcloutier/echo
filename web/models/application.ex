@@ -6,15 +6,15 @@ defmodule Echo.Application do
 
   schema "applications" do
     field :name, :string
-    field :key, :string
-    field :secret, :string
+    field :app_key, :string
+    field :app_secret, :string
 
     has_many :notifications, Application
 
     timestamps
   end
 
-  @required_fields ~w(name key secret)
+  @required_fields ~w(name app_key app_secret)
   @optional_fields ~w()
 
   @doc """
