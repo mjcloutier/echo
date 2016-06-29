@@ -18,6 +18,7 @@ dependencies:
     - cp config/dev.secret.exs.example config/dev.secret.exs
     - yes | mix deps.get
     - yes | mix local.rebar
+
 test:
   override:
     - mix test

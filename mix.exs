@@ -18,8 +18,8 @@ defmodule Echo.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Echo, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :oauth2]]
+     applications: [:phoenix, :phoenix_html, :cowboy, :logger,
+                    :gettext, :phoenix_ecto, :postgrex, :oauth2]]
   end
 
   # Specifies which paths to compile per environment.

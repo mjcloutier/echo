@@ -43,3 +43,4 @@ config :guardian, Guardian,
     "kty" => "oct",
     "use" => "sig"
   }
+
