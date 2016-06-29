@@ -35,8 +35,9 @@ With the Id and Secret, you should be able to call the API like so:
 
   `GET http://localhost:4000/api/v1/notifications?user_id=[SOME_USER_ID]&app_id=[YOUR_APP_ID]&app_secret=[YOUR_APP_SECRET]`
 
+
 The user_id can theoretically be any string, but if you want the response to behave as expected it should probably be a user's id
-of some sort
+of some sort.
 
 To prevent a notification from showing for a certain user after it's been sent, the notification has to be acknowledged.
 You can acknowledge a notification like so:
@@ -51,6 +52,19 @@ with a body of:
     app_secret: [APP_SECRET]
   }
   ```
+
+#### FMS
+Take your app id, secret, and echo url (localhost:4000, probably) and stick them in your `config/application_config/local/base.rb` like so:
+
+```
+echo_url "http://localhost:4000/api/v1"
+echo_app_id "146f21aca134d185"
+echo_app_secret "dVo287cvOW/OMMg6v8kdSc/qh9j0Em5EuKKmkthMuXI="
+```
+1. Add an echo
+2. Refresh FMS
+3. ???
+4. Profit
 
 ### SSL 
 
