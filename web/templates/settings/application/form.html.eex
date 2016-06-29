@@ -24,7 +24,7 @@
     <%= if @changeset.model.app_key do %>
       <div class="row">
         <div class="col-xs-6">
-          <%= label f, "App Key:", class: "control-label" %>
+          <%= label f, "App ID:", class: "control-label" %>
           <%= @changeset.model.app_key %>
         </div><!-- /col-xs-6 -->
       </div>
