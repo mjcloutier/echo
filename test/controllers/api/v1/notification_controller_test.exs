@@ -148,7 +148,12 @@ defmodule Echo.Api.V1.NotificationControllerTest do
     assert json_response(conn, 200)["notifications"] |> Enum.count == 1
   end
 
-  #test "it returns helpful message if no app key or secret"
+  test "it returns helpful message if no app key or secret", %{conn: conn} do
+    build_notification
+
+    conn = get conn, api_v1_notification_path(conn, :index, user_id: "big_ass_uuid")
+    assert json_response(conn, 403)
+  end
 
   # 1.3 has Calendar data types, but there's still some hurdles to jump through
   # to interop with Ecto.DateTimes, couldn't just Calendar.DateTime.now |> ...add(30) |> Ecto.DateTime.parse

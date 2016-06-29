@@ -69,7 +69,18 @@ defmodule Echo.Router do
   defp verify_application(conn, _params) do
     app_key = conn.params["app_id"] || conn |> get_req_header("app_id") |> Enum.at(0)
     app_secret = conn.params["app_secret"] || conn |> get_req_header("app_secret") |> Enum.at(0)
-    application = Repo.get_by(Application, app_key: app_key, app_secret: app_secret)
+
+    conn |> handle_key_secret(app_key, app_secret)
+  end
+
+  defp handle_key_secret(conn, nil, nil) do
+    conn
+    |> put_status(:forbidden)
+    |> json(%{error: "You must provide an Application ID and secret"})
+    |> halt
+  end
+  defp handle_key_secret(conn, key, secret) do
+    application = Repo.get_by(Application, app_key: key, app_secret: secret)
     conn |> assign(:application_id, application.id)
   end
 
