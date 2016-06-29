@@ -31,16 +31,6 @@ defmodule Echo.Api.V1.NotificationControllerTest do
     assert Repo.all(from c in Customer, select: count(c.id)) == [1]
   end
 
-  def build_notification(p \\ %{}) do
-    application = Repo.one(Application)
-    change_params = Map.merge(%{ body: "title", title: "title", application_id: application.id }, p)
-    changeset =
-      application
-      |> build_assoc(:notifications)
-      |> Notification.changeset(change_params)
-    Repo.insert!(changeset)
-  end
-
   test "index marks a notification as sent", %{conn: conn} do
     build_notification
     assert Repo.all(from c in SentNotification, select: count(c.id)) == [0]
@@ -166,5 +156,15 @@ defmodule Echo.Api.V1.NotificationControllerTest do
   def gimme_the_future do
     {{y, month, d}, {_, _, _}} = :os.timestamp |> :calendar.now_to_datetime
     {y, month+1, d} |> Ecto.Date.from_erl
+  end
+
+  def build_notification(p \\ %{}) do
+    application = Repo.one(Application)
+    change_params = Map.merge(%{ body: "title", title: "title", application_id: application.id }, p)
+    changeset =
+      application
+      |> build_assoc(:notifications)
+      |> Notification.changeset(change_params)
+    Repo.insert!(changeset)
   end
 end
