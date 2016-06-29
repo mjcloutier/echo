@@ -35,7 +35,6 @@ defmodule Echo.Endpoint do
     key: "_echo_key",
     signing_salt: "769F+tvZ"
 
-  # TODO: Make me more resilient
-  plug CORSPlug, origin: ["https://fms-dev.rednovalabs.net"]
+  plug CORSPlug, origin: Application.get_env(:echo, Echo)[:valid_cors_domains]
   plug Echo.Router
 end
