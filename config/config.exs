@@ -43,5 +43,3 @@ config :guardian, Guardian,
     "kty" => "oct",
     "use" => "sig"
   }
-
-config :hound, driver: "phantomjs"
