@@ -145,6 +145,16 @@ defmodule Echo.Api.V1.NotificationControllerTest do
     assert json_response(conn, 403)
   end
 
+  test "it only returns notifications for a given application", %{conn: conn} do
+    Repo.insert(%Notification{ application: Repo.insert!(%Application{ app_key: "asf", app_secret: "asldkf" }) })
+    build_notification
+    build_notification
+
+    conn = get conn, api_v1_notification_path(conn, :index, user_id: "ajsdklf", app_id: "key", app_secret: "secret")
+    assert json_response(conn, 200)["notifications"] |> Enum.count == 2
+    assert Repo.all(from s in SentNotification, select: count(s.id)) == [2]
+  end
+
   # 1.3 has Calendar data types, but there's still some hurdles to jump through
   # to interop with Ecto.DateTimes, couldn't just Calendar.DateTime.now |> ...add(30) |> Ecto.DateTime.parse
   # So I gave up and I'm doing it the erlang way
@@ -159,7 +169,7 @@ defmodule Echo.Api.V1.NotificationControllerTest do
   end
 
   def build_notification(p \\ %{}) do
-    application = Repo.one(Application)
+    application = Repo.all(Application) |> Enum.at(0)
     change_params = Map.merge(%{ body: "title", title: "title", application_id: application.id }, p)
     changeset =
       application

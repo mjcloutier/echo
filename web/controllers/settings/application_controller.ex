@@ -17,8 +17,8 @@ defmodule Echo.Settings.ApplicationController do
   end
 
   def create(conn, %{"application" => application_params}) do
-    key    = generate_hash
-    secret = generate_hash
+    key    = generate_key
+    secret = generate_secret
     create_params = Map.merge(application_params, %{ "app_key" => key, "app_secret" => secret })
     changeset = Application.changeset(%Application{}, create_params)
 
@@ -56,7 +56,11 @@ defmodule Echo.Settings.ApplicationController do
     end
   end
 
-  defp generate_hash do
+  defp generate_key do
+    :crypto.strong_rand_bytes(8) |> Base.encode16 |> String.downcase
+  end
+
+  defp generate_secret do
     :crypto.strong_rand_bytes(32) |> Base.encode64 |> String.replace("+", "0")
   end
 end
