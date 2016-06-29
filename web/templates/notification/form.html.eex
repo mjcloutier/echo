@@ -24,7 +24,7 @@
       <div class="col-xs-3">
         <div class="form-group">
           <%= label f, :application_id, class: "control-label" %>
-          <%= select f, :application_id, @available_applications, class: "form-control c-select" %>
+          <%= select f, :application_id, @available_applications, class: "form-control c-select", prompt: "Select an application" %>
           <%= error_tag f, :application_id %>
         </div>
       </div><!-- /col-xs-2 -->
