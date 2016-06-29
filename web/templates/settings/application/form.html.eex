@@ -21,25 +21,20 @@
       </div><!-- /col-xs-12 -->
     </div><!-- /row -->
 
-    <div class="row">
-      <div class="col-xs-6">
-        <div class="form-group">
-          <%= label f, :app_key, class: "control-label" %>
-          <%= text_input f, :app_key, required: true,
-                                  class: "form-control",
-                                  disabled: true %>
-        </div><!-- /form-group -->
-      </div><!-- /col-xs-6 -->
-
-      <div class="col-xs-6">
-        <div class="form-group">
-          <%= label f, :app_secret, class: "control-label" %>
-          <%= text_input f, :app_secret, required: true,
-                                     class: "form-control",
-                                     disabled: true %>
-        </div><!-- /form-group -->
-      </div><!-- /col-xs-6 -->
-    </div><!-- /row -->
+    <%= if @changeset.model.app_key do %>
+      <div class="row">
+        <div class="col-xs-6">
+          <%= label f, "App Key:", class: "control-label" %>
+          <%= @changeset.model.app_key %>
+        </div><!-- /col-xs-6 -->
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          <%= label f, "App Secret:", class: "control-label" %>
+          <%= @changeset.model.app_secret %>
+        </div><!-- /col-xs-6 -->
+      </div>
+    <% end %>
 
     <div class="row">
       <div class="col-xs-12">
