@@ -35,6 +35,7 @@ defmodule Echo.Endpoint do
     key: "_echo_key",
     signing_salt: "769F+tvZ"
 
-  plug CORSPlug
+  # TODO: Make me more resilient
+  plug CORSPlug, origin: ["https://fms-dev.rednovalabs.net"]
   plug Echo.Router
 end

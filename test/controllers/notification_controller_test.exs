@@ -8,6 +8,11 @@ defmodule Echo.NotificationControllerTest do
   }
   @invalid_attrs %{}
 
+  setup do
+    user = Echo.Repo.insert!(%Echo.User{email: "email@example.com"})
+    {:ok, conn: guardian_login(user)}
+  end
+
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, notification_path(conn, :index)
 

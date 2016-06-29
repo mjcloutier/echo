@@ -39,8 +39,7 @@ defmodule Echo.Mixfile do
      {:cowboy, "~> 1.0"},
      {:cors_plug, "~> 1.1"},
      {:oauth2, "~> 0.5"},
-     {:guardian, "~> 0.12.0"},
-     {:hound, "~> 1.0"}]
+     {:guardian, "~> 0.12.0"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

@@ -5,9 +5,6 @@ defmodule Echo.NotificationController do
   alias Echo.Application
 
   plug :scrub_params, "notification" when action in [:create, :update]
-  plug Guardian.Plug.VerifySession
-  plug Guardian.Plug.LoadResource
-  plug Guardian.Plug.EnsureAuthenticated, handler: Echo.Authentication.Plug.ErrorHandler
 
   def index(conn, _params) do
     notifications =
@@ -22,7 +19,7 @@ defmodule Echo.NotificationController do
     changeset = Notification.changeset(%Notification{})
 
     render(conn, "new.html", changeset: changeset,
-                             available_applications: Application.available)
+                             available_applications: Repo.all(Application.available))
   end
 
   def create(conn, %{"notification" => notification_params}) do
@@ -36,7 +33,7 @@ defmodule Echo.NotificationController do
         |> redirect(to: notification_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset,
-                                 available_applications: Application.available)
+                                 available_applications: Repo.all(Application.available))
     end
   end
 
@@ -59,7 +56,7 @@ defmodule Echo.NotificationController do
     render(conn, "edit.html", notification: notification,
                               changeset: changeset,
                               echo_type: echo_type,
-                              available_applications: Application.available)
+                              available_applications: Repo.all(Application.available))
   end
 
   def update(conn, %{"id" => id, "notification" => notification_params}) do
@@ -87,7 +84,7 @@ defmodule Echo.NotificationController do
         render(conn, "edit.html", notification: notification,
                                   changeset: changeset,
                                   echo_type: echo_type,
-                                  available_applications: Application.available)
+                                  available_applications: Repo.all(Application.available))
     end
   end
 

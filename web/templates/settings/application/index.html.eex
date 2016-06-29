@@ -31,7 +31,7 @@
             <td><%= application.inserted_at %></td>
 
             <td>
-              <%= link "Edit", to: application_path(@conn, :edit, application),
+              <%= link "View/Edit", to: application_path(@conn, :edit, application),
                                class: "btn btn-sm btn-secondary" %>
             </td>
           </tr>

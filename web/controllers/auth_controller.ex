@@ -40,7 +40,6 @@ defmodule Echo.AuthController do
     #
     # If you need to make additional resource requests, you may want to store
     # the access token as well.
-
     case valid_domain?(user[:hd]) do
       true ->
         conn

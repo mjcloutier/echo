@@ -17,7 +17,10 @@ defmodule Echo.Settings.ApplicationController do
   end
 
   def create(conn, %{"application" => application_params}) do
-    changeset = Application.changeset(%Application{}, application_params)
+    key    = generate_hash
+    secret = generate_hash
+    create_params = Map.merge(application_params, %{ "app_key" => key, "app_secret" => secret })
+    changeset = Application.changeset(%Application{}, create_params)
 
     case Repo.insert(changeset) do
       {:ok, _application} ->
@@ -51,5 +54,9 @@ defmodule Echo.Settings.ApplicationController do
       {:error, changeset} ->
         render conn, "edit.html", changeset: changeset, application: application
     end
+  end
+
+  defp generate_hash do
+    :crypto.strong_rand_bytes(32) |> Base.encode64 |> String.replace("+", "0")
   end
 end

@@ -6,12 +6,15 @@ defmodule Echo.Application do
 
   schema "applications" do
     field :name, :string
-    has_many :notifications, Application
+    field :app_key, :string
+    field :app_secret, :string
+
+    has_many :notifications, Echo.Notification
 
     timestamps
   end
 
-  @required_fields ~w(name)
+  @required_fields ~w(name app_key app_secret)
   @optional_fields ~w()
 
   @doc """
@@ -26,8 +29,8 @@ defmodule Echo.Application do
   end
 
   def available do
-    Repo.all(from a in Application,
-            select: {a.name, a.id},
-            order_by: [asc: a.name])
+    from a in Application,
+      select: {a.name, a.id},
+      order_by: [asc: a.name]
   end
 end
