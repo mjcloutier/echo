@@ -25,7 +25,7 @@ config :logger, level: :info
 config :echo, Echo.Google,
   client_id: "729002142760-04tsuh7hav6demmova0vpmhkdl0ahd47.apps.googleusercontent.com",
   client_secret: "uF7VeT_BObOj2jXUaAu504aP",
-  redirect_uri: "https://echo.rnl.io/auth/google/callback"
+  redirect_uri: "https://rnl-echo.herokuapp.com/auth/google/callback"
 
 config :echo, Echo,
   valid_cors_domains: ["https://staging.storedgefms.com", "https://www.storedgefms.com"]
