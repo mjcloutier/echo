@@ -9,7 +9,7 @@ defmodule Echo.Application do
     field :app_key, :string
     field :app_secret, :string
 
-    has_many :notifications, Application
+    has_many :notifications, Echo.Notification
 
     timestamps
   end

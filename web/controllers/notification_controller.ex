@@ -5,9 +5,6 @@ defmodule Echo.NotificationController do
   alias Echo.Application
 
   plug :scrub_params, "notification" when action in [:create, :update]
-  plug Guardian.Plug.VerifySession
-  plug Guardian.Plug.LoadResource
-  plug Guardian.Plug.EnsureAuthenticated, handler: Echo.Authentication.Plug.ErrorHandler
 
   def index(conn, _params) do
     notifications =

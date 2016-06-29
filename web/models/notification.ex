@@ -31,6 +31,7 @@ defmodule Echo.Notification do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_length(:title, min: 3)
+    |> foreign_key_constraint(:application_id)
   end
 
   def unread_for(application_id, customer, sign_in_count) do
