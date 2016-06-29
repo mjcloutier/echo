@@ -59,21 +59,16 @@ If the application you're trying to integrate with uses SSL, you'll likely get a
 To use SSL, you'll want to add the following blocks to `config/dev.secret.exs`:
  ```
  config :echo, Echo.Endpoint,
-  https: [ port: 4443,
+  https: [ 
+    port: 4443,
     otp_app: :echo,
     keyfile: "priv/keys/localhost.key",
-    certfile: "priv/keys/localhost.cert"],
-  debug_errors: true,
-  code_reloader: true,
-  check_origin: false,
-  watchers: [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin"]]
+    certfile: "priv/keys/localhost.cert"]
   
  config :echo, Echo,
   valid_cors_domains: ["https://fms-dev.rednovalabs.net"] # Or your dev url
  
  config :echo, Echo.Google,
-  client_id: "729002142760-04tsuh7hav6demmova0vpmhkdl0ahd47.apps.googleusercontent.com",
-  client_secret: "uF7VeT_BObOj2jXUaAu504aP",
   redirect_uri: "https://localhost:4443/auth/google/callback"
 ```
 
