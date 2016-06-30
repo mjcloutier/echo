@@ -1,5 +1,6 @@
 defmodule Echo.NotificationView do
   use Echo.Web, :view
+  import Scrivener.HTML
 
   def echo_types do
     [
