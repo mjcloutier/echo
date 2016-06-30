@@ -44,7 +44,7 @@
           <%= label f, "Ends on", class: "control-label" %>
           <%= text_input f, :immediate_end_at, class: "form-control",
                                      placeholder: "yyyy-mm-dd",
-                                     value: @changeset.model.end_at,
+                                     value: @changeset.data.end_at,
                                      id: "end_date" %>
           <%= error_tag f, :end_at %>
         </div><!-- /form-group -->

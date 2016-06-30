@@ -34,9 +34,9 @@ defmodule Echo.ConnCase do
       # We need a way to get into the connection to login a user
       # We need to use the bypass_through to fire the plugs in the router
       # and get the session fetched.
-      def guardian_login(%Echo.User{} = user), do: guardian_login(conn(), user, :token, [])
-      def guardian_login(%Echo.User{} = user, token), do: guardian_login(conn(), user, token, [])
-      def guardian_login(%Echo.User{} = user, token, opts), do: guardian_login(conn(), user, token, opts)
+      def guardian_login(%Echo.User{} = user), do: guardian_login(build_conn(), user, :token, [])
+      def guardian_login(%Echo.User{} = user, token), do: guardian_login(build_conn(), user, token, [])
+      def guardian_login(%Echo.User{} = user, token, opts), do: guardian_login(build_conn(), user, token, opts)
 
       def guardian_login(%Plug.Conn{} = conn, user), do: guardian_login(conn, user, :token, [])
       def guardian_login(%Plug.Conn{} = conn, user, token), do: guardian_login(conn, user, token, [])
@@ -51,11 +51,9 @@ defmodule Echo.ConnCase do
     end
   end
 
-  setup tags do
-    unless tags[:async] do
-      Ecto.Adapters.SQL.restart_test_transaction(Echo.Repo, [])
-    end
+  setup do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Echo.Repo)
 
-    {:ok, conn: Phoenix.ConnTest.conn()}
+    {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

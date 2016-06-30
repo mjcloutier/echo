@@ -30,15 +30,17 @@ defmodule Echo.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.1.6"},
+    [{:phoenix, "~> 1.2.0"},
      {:postgrex, ">= 0.0.0"},
-     {:phoenix_ecto, "~> 2.0"},
+     {:phoenix_ecto, "~> 3.0"},
      {:phoenix_html, "~> 2.4"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:cors_plug, "~> 1.1"},
      {:oauth2, "~> 0.5"},
+     {:scrivener_ecto, "~> 1.0"},
+     {:scrivener_html, github: "rtroxler/scrivener_html"},
      {:guardian, "~> 0.12.0"}]
   end
 

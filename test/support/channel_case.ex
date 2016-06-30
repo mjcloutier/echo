@@ -31,11 +31,8 @@ defmodule Echo.ChannelCase do
     end
   end
 
-  setup tags do
-    unless tags[:async] do
-      Ecto.Adapters.SQL.restart_test_transaction(Echo.Repo, [])
-    end
-
+  setup do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Echo.Repo)
     :ok
   end
 end
