@@ -13,8 +13,9 @@ defmodule Echo.Api.V1.NotificationControllerTest do
   @invalid_attrs %{}
 
   setup %{conn: conn} do
-    Repo.insert!(%Application{ app_key: "key", app_secret: "secret" })
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    app = Repo.insert!(%Application{ app_key: "key", app_secret: "secret" })
+
+    {:ok, conn: conn |> put_req_header("accept", "application/json") |> assign(:app, app)}
   end
 
   test "index requires a user_id", %{conn: conn} do
@@ -28,7 +29,7 @@ defmodule Echo.Api.V1.NotificationControllerTest do
     conn = get conn, api_v1_notification_path(conn, :index, user_id: "big_ass_uuid", app_id: "key", app_secret: "secret")
     assert json_response(conn, 200)["notifications"] == []
 
-    assert Repo.all(from c in Customer, select: count(c.id)) == [1]
+    assert Repo.all(from c in Customer, where: c.application_id == ^conn.assigns.app.id, select: count(c.id)) == [1]
   end
 
   test "index marks a notification as sent", %{conn: conn} do
@@ -97,7 +98,7 @@ defmodule Echo.Api.V1.NotificationControllerTest do
   end
 
   test "acknowledges a notification", %{conn: conn} do
-    notification = Repo.insert!(%Notification{application: Repo.one(Application)})
+    notification = Repo.insert!(%Notification{application: conn.assigns.app})
     c = Repo.insert!(%Customer{app_user_id: "big_ass_uuid"})
     s = Repo.insert!(%SentNotification{customer_id: c.id, notification_id: notification.id})
 
@@ -107,7 +108,7 @@ defmodule Echo.Api.V1.NotificationControllerTest do
   end
 
   test "doesn't bomb if fails to find customer", %{conn: conn} do
-    notification = Repo.insert!(%Notification{application: Repo.one(Application)})
+    notification = Repo.insert!(%Notification{application: conn.assigns.app})
 
     conn = put conn, api_v1_notification_path(conn, :update, notification, user_id: "big_ass_uuid", app_id: "key", app_secret: "secret")
     assert json_response(conn, 403)

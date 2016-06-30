@@ -6,11 +6,12 @@ defmodule Echo.Customer do
 
   schema "customers" do
     field :app_user_id, :string
+    belongs_to :application, Echo.Application
 
     timestamps
   end
 
-  @required_fields ~w(app_user_id)
+  @required_fields ~w(app_user_id application_id)
   @optional_fields ~w()
 
   @doc """
@@ -24,9 +25,9 @@ defmodule Echo.Customer do
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def find_or_create(app_user_id) do
+  def find_or_create(application_id, app_user_id) do
     case Repo.get_by(Customer, app_user_id: app_user_id) do
-      nil -> Repo.insert!(Customer.changeset(%Customer{}, %{ app_user_id: app_user_id }))
+      nil -> Repo.insert!(Customer.changeset(%Customer{}, %{ application_id: application_id, app_user_id: app_user_id }))
       customer -> customer
     end
   end

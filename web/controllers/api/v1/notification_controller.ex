@@ -51,7 +51,7 @@ defmodule Echo.Api.V1.NotificationController do
   end
 
   defp find_or_create_customer(conn, _opts) do
-    assign(conn, :customer, Customer.find_or_create(conn.params["user_id"]))
+    assign(conn, :customer, Customer.find_or_create(conn.assigns.application_id, conn.params["user_id"]))
   end
 
   defp find_unread_relevant_notifications(conn, _opts) do

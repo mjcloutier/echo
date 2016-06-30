@@ -3,7 +3,7 @@ defmodule Echo.CustomerTest do
 
   alias Echo.Customer
 
-  @valid_attrs %{app_user_id: "some content"}
+  @valid_attrs %{app_user_id: "some content", application_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
