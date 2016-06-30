@@ -15,6 +15,6 @@ config :logger, level: :warn
 # Configure your database
 config :echo, Echo.Repo,
   adapter: Ecto.Adapters.Postgres,
-  database: "echo_test",
+  database: "circle_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

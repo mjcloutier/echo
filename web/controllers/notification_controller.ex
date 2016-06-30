@@ -3,23 +3,28 @@ defmodule Echo.NotificationController do
 
   alias Echo.Notification
   alias Echo.Application
+  import Ecto.Query
 
   plug :scrub_params, "notification" when action in [:create, :update]
 
-  def index(conn, _params) do
-    notifications =
-      Repo.all(from n in Notification,
-               order_by: [desc: n.inserted_at])
-      |> Repo.preload([:application])
+  def index(conn, params) do
+    page =
+      Notification
+      |> order_by(desc: :inserted_at)
+      |> preload(:application)
+      |> Repo.paginate(params)
 
-    render(conn, "index.html", notifications: notifications)
+    render conn, :index,
+      page: page,
+      notifications: page.entries
   end
 
   def new(conn, _params) do
-    changeset = Notification.changeset(%Notification{})
+    changeset = Notification.changeset(%Notification{}, %{})
 
-    render(conn, "new.html", changeset: changeset,
-                             available_applications: Repo.all(Application.available))
+    render(conn, :new,
+     changeset: changeset,
+     available_applications: Repo.all(Application.available))
   end
 
   def create(conn, %{"notification" => notification_params}) do
@@ -41,7 +46,7 @@ defmodule Echo.NotificationController do
     notification =
       Repo.get!(Notification, id)
       |> Repo.preload([:application])
-    changeset = Notification.changeset(notification)
+    changeset = Notification.changeset(notification, %{})
 
     echo_type =
       cond do
