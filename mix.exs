@@ -39,8 +39,9 @@ defmodule Echo.Mixfile do
      {:cowboy, "~> 1.0"},
      {:cors_plug, "~> 1.1"},
      {:oauth2, "~> 0.5"},
+     {:scrivener, "~> 2.0", override: true},
      {:scrivener_ecto, "~> 1.0"},
-     {:scrivener_html, github: "rtroxler/scrivener_html"},
+     {:scrivener_html, "~> 1.2"},
      {:guardian, "~> 0.12.0"}]
   end
 
