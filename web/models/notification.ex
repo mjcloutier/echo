@@ -14,12 +14,14 @@ defmodule Echo.Notification do
     field :start_at, Ecto.Date
     field :end_at, Ecto.Date
     belongs_to :application, Application
+    belongs_to :created_by, Echo.User
 
+    has_many :sent_notifications, SentNotification
     timestamps
   end
 
   @required_fields ~w(title body application_id)
-  @optional_fields ~w(summary start_at end_at session_count)
+  @optional_fields ~w(summary start_at end_at session_count created_by_id)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -41,7 +43,7 @@ defmodule Echo.Notification do
         nil -> from n in query, where: is_nil(n.session_count)
         count -> from n in query, where: n.session_count == ^count or is_nil(n.session_count)
       end
-    Repo.all(query)
+    Repo.all(query) |> Repo.preload(:created_by)
   end
 
   def available_today(app_id, customer) do

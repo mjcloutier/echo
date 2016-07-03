@@ -8,6 +8,7 @@ defmodule Echo.Customer do
     field :app_user_id, :string
     belongs_to :application, Echo.Application
 
+    has_many :sent_notifications, Echo.SentNotification
     timestamps
   end
 
@@ -30,5 +31,10 @@ defmodule Echo.Customer do
       nil -> Repo.insert!(Customer.changeset(%Customer{}, %{ application_id: application_id, app_user_id: app_user_id }))
       customer -> customer
     end
+  end
+
+  def total_count do
+    from c in Customer,
+      select: count(c.id)
   end
 end

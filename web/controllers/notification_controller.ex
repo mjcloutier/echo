@@ -2,8 +2,10 @@ defmodule Echo.NotificationController do
   use Echo.Web, :controller
 
   alias Echo.Notification
+  alias Echo.SentNotification
   alias Echo.Application
   import Ecto.Query
+  import Echo.NotificationStatistics
 
   plug :scrub_params, "notification" when action in [:create, :update]
 
@@ -20,9 +22,15 @@ defmodule Echo.NotificationController do
   end
 
   def show(conn, %{"id" => id}) do
-    notification = Notification |> Repo.get!(id) |> Repo.preload(:application)
+    notification =
+      Notification
+      |> Repo.get!(id)
+      |> Repo.preload([:application, :created_by])
 
-    render(conn, :show, notification: notification)
+    info =
+      Echo.NotificationStatistics.stats_for(notification)
+
+    render(conn, :show, info: info, notification: notification)
   end
 
   def new(conn, _params) do
@@ -34,7 +42,8 @@ defmodule Echo.NotificationController do
   end
 
   def create(conn, %{"notification" => notification_params}) do
-    change_params = scrub_type_params(notification_params)
+    change_params = Map.put(scrub_type_params(notification_params),
+                            "created_by_id", conn.assigns.current_user.id)
     changeset = Notification.changeset(%Notification{}, change_params)
 
     case Repo.insert(changeset) do
