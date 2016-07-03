@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12">
-      <h2>Echo: <%= @notification.title %></h2>
+      <h3>Echo: <%= @notification.title %></h3>
     </div><!-- /col-xs-12 -->
   </div><!-- /row -->
 
@@ -10,7 +10,7 @@
       <ul>
 
         <li>
-          <strong>Body:</strong>
+          <strong>Body</strong>
           <%= @notification.body %>
         </li>
 

@@ -19,6 +19,12 @@ defmodule Echo.NotificationController do
       notifications: page.entries
   end
 
+  def show(conn, %{"id" => id}) do
+    notification = Notification |> Repo.get!(id) |> Repo.preload(:application)
+
+    render(conn, :show, notification: notification)
+  end
+
   def new(conn, _params) do
     changeset = Notification.changeset(%Notification{}, %{})
 

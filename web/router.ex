@@ -49,7 +49,7 @@ defmodule Echo.Router do
     delete "/session", SessionController, :delete
 
     get "/", NotificationController, :index
-    resources "/notifications", NotificationController, except: [:show]
+    resources "/notifications", NotificationController
 
     get "/settings", SettingsController, :index
     resources "/settings/applications", Settings.ApplicationController, only: [:index, :new, :create, :edit, :update]
