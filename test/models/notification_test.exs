@@ -13,7 +13,7 @@ defmodule Echo.NotificationTest do
   test "changeset with valid attributes" do
     u = Repo.insert!(%Echo.User{ email: "email@email.com" })
     c = Map.put(@valid_attrs, :created_by_id, u.id)
-    changeset = Notification.changeset(%Notification{}, @valid_attrs)
+    changeset = Notification.changeset(%Notification{}, c)
     assert changeset.valid?
   end
 

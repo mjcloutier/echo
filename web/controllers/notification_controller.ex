@@ -5,7 +5,7 @@ defmodule Echo.NotificationController do
   alias Echo.SentNotification
   alias Echo.Application
   import Ecto.Query
-  import Echo.NotificationStatistics
+  alias Echo.NotificationStatistics
 
   plug :scrub_params, "notification" when action in [:create, :update]
 
@@ -28,7 +28,7 @@ defmodule Echo.NotificationController do
       |> Repo.preload([:application, :created_by])
 
     info =
-      Echo.NotificationStatistics.stats_for(notification)
+      NotificationStatistics.stats_for(notification)
 
     render(conn, :show, info: info, notification: notification)
   end

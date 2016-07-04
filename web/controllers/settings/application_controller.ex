@@ -37,7 +37,7 @@ defmodule Echo.Settings.ApplicationController do
 
   def edit(conn, %{"id" => id}) do
     application = Repo.get!(Application, id)
-    changeset = Application.changeset application
+    changeset = Application.changeset(application, %{})
 
     render conn, "edit.html", changeset: changeset, application: application
   end
