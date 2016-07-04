@@ -10,13 +10,42 @@
       <ul>
 
         <li>
-          <strong>Body</strong>
-          <%= @notification.body %>
+          <strong>Created By:</strong>
+          <%= @notification.created_by.email %>
         </li>
 
+        <li>
+          <strong>Created On:</strong>
+          <%= @notification.inserted_at %>
+        </li>
       </ul>
     </div><!-- /col-xs-12 -->
   </div><!-- /row -->
+
+  <div class="row">
+      <table class="table table-hover">
+        <thead class="thead">
+          <tr>
+            <th></th>
+            <th># Sent</th>
+            <th>Seen %</th>
+            <th># Acknowledged</th>
+            <th>Acknowledged %</th>
+            <th># Echo Customers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td><%= @info.sent_count %></td>
+            <td><%= @info.seen_percent %></td>
+            <td><%= @info.acknowledged_count %></td>
+            <td><%= @info.acknowledged_percent %></td>
+            <td><%= @info.total_customer_count %></td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
 
   <div class="row">
     <div class="col-xs-12">

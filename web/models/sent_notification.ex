@@ -41,4 +41,25 @@ defmodule Echo.SentNotification do
          notification_id: notification.id
        }))
   end
+
+  def sent_notifications(notification) do
+    from(s in SentNotification,
+     join: n in assoc(s, :notification),
+     where: s.notification_id == ^notification.id)
+  end
+
+  def acknowledged_notifications(notification) do
+      from(s in SentNotification.sent_notifications(notification),
+        where: s.acknowledged == true)
+  end
+
+  def num_sent_notifications(notification) do
+    from(s in sent_notifications(notification),
+     select: count(s.id))
+  end
+
+  def num_acknowledged_notifications(notification) do
+    from(s in acknowledged_notifications(notification),
+     select: count(s.id))
+  end
 end
