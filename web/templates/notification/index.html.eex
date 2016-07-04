@@ -22,11 +22,12 @@
             <th width="25%">Title</th>
             <th width="15%">Type</th>
             <th width="15%">Application</th>
-            <th width="10%">Start date</th>
-            <th width="10%">End date</th>
-            <th width="20%">Users</th>
+            <th width="12%">Start date</th>
+            <th width="12%">End date</th>
+            <th width="14%">Users</th>
 
-            <th width="5%"></th>
+            <th width="2%"></th>
+            <th width="2%"></th>
           </tr>
         </thead>
         <tbody>
@@ -40,6 +41,11 @@
             <td>FMS - All</td>
 
             <td class="text-right">
+              <%= link to: notification_path(@conn, :show, notification), class: "btn btn-secondary btn-sm" do %>
+                <i class="fa fa-bar-chart"></i>
+              <% end %>
+            </td>
+            <td class="text-right" style="padding-left: 0px;">
               <%= link to: notification_path(@conn, :edit, notification), class: "btn btn-secondary btn-sm" do %>
                 <i class="fa fa-pencil"></i>
               <% end %>

@@ -30,9 +30,6 @@
             <%= link to: notification_path(@conn, :new), class: Echo.LinkHelpers.active_class(@conn, notification_path(@conn, :new)) do %><i class="fa fa-plus-circle" aria-hidden="true"></i></a><% end %>
           </li>
           <li class="navigation-item">
-            <a href=""><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
-          </li>
-          <li class="navigation-item">
             <%= link to: settings_path(@conn, :index), class: Echo.LinkHelpers.active_class(@conn, settings_path(@conn, :index)) do %>
               <i class="fa fa-cog" aria-hidden="true"></i>
             <% end %>
