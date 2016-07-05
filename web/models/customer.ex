@@ -33,8 +33,9 @@ defmodule Echo.Customer do
     end
   end
 
-  def total_count do
+  def total_count(notification) do
     from c in Customer,
+      where: c.application_id == ^notification.application_id,
       select: count(c.id)
   end
 end

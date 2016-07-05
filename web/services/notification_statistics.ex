@@ -8,7 +8,7 @@ defmodule Echo.NotificationStatistics do
       seen_percent: seen_percent(notification),
       acknowledged_count: acknowledged_count(notification),
       acknowledged_percent: acknowledged_percent(notification),
-      total_customer_count: echo_customer_count
+      total_customer_count: echo_customer_count(notification)
     }
   end
 
@@ -19,9 +19,9 @@ defmodule Echo.NotificationStatistics do
   end
 
   def seen_percent(notification) do
-    case echo_customer_count do
+    case echo_customer_count(notification) do
       0 -> 0.0
-      _ -> (sent_count(notification) / echo_customer_count) * 100
+      _ -> (sent_count(notification) / echo_customer_count(notification)) * 100
     end
   end
 
@@ -38,8 +38,8 @@ defmodule Echo.NotificationStatistics do
     end
   end
 
-  def echo_customer_count do
-    Echo.Customer.total_count
+  def echo_customer_count(notification) do
+    Echo.Customer.total_count(notification)
     |> Repo.one
   end
 end
