@@ -10,14 +10,30 @@ defmodule Echo.NotificationController do
   plug :scrub_params, "notification" when action in [:create, :update]
 
   def index(conn, params) do
+    applications = Repo.all(Application)
+    selected_application = nil
+
+    if params["app_id"] do
+      selected_application = Repo.get!(Application, params["app_id"])
+
+      notification_query =
+        from n in Notification,
+          where: n.application_id == ^selected_application.id
+    else
+      notification_query = Notification
+    end
+
     page =
-      Notification
+      notification_query
       |> order_by(desc: :inserted_at)
       |> preload(:application)
       |> Repo.paginate(params)
 
+
     render conn, :index,
       page: page,
+      available_applications: applications,
+      selected_application: selected_application,
       notifications: page.entries
   end
 
