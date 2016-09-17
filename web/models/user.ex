@@ -3,11 +3,12 @@ defmodule Echo.User do
 
   schema "users" do
     field :email, :string
+    field :admin, :boolean
 
     timestamps
   end
 
-  @required_fields ~w(email)
+  @required_fields ~w(email admin)
   @optional_fields ~w()
 
   @doc """
